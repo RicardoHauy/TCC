@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reldeacoesporcliente_subreport3" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ff3f5f28-ace7-45d1-9590-581effe2cad9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="coddiv" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codac" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select parc.codigo as codparcela, parc.valorparcela, parc.dataapagar as dataapagarparcela, parc.dataquepagou as dtquepagouparcela, tppag.nome as tipopagamento from acao ac, divida div, parcela parc, tipopagamento tppag where ac.codacao=div.codacao and div.coddivida=parc.coddivida and parc.codtipopagamento=tppag.codigo and ac.codacao=$P{codac} order by parc.dataapagar asc]]>
+	</queryString>
+	<field name="CODPARCELA" class="java.math.BigDecimal"/>
+	<field name="VALORPARCELA" class="java.lang.Double"/>
+	<field name="DATAAPAGARPARCELA" class="java.sql.Timestamp"/>
+	<field name="DTQUEPAGOUPARCELA" class="java.sql.Timestamp"/>
+	<field name="TIPOPAGAMENTO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="28" width="121" height="20" backcolor="#B7A580" uuid="2f2350ca-09ab-438b-89b0-a103d1814b80"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data a Pagar]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="123" y="54" width="144" height="20" backcolor="#EADCC0" uuid="2fac16b2-078f-44a6-afe7-92ded3e16e52"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DTQUEPAGOUPARCELA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="122" y="28" width="144" height="20" backcolor="#EADCC0" uuid="31127d2f-b234-4e4f-be69-27e7438ee3b7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATAAPAGARPARCELA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="273" y="2" width="122" height="20" backcolor="#B7A580" uuid="040908b5-41a7-4ef1-bfbb-0f261a207ef5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Pagamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="2" width="121" height="20" backcolor="#B7A580" uuid="c0a40ffa-be0c-44b4-8efb-8123c1c05412"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código da Parcela]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="395" y="2" width="144" height="20" backcolor="#EADCC0" uuid="fc4955db-c1d7-4f34-8075-fa42ba8c37d7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TIPOPAGAMENTO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement mode="Opaque" x="395" y="28" width="144" height="20" backcolor="#EADCC0" uuid="2141c7cb-f0b0-4e82-8994-6f25201bad26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALORPARCELA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="54" width="122" height="20" backcolor="#B7A580" uuid="bef6460a-56bf-42d4-a1ea-d772ce720830"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data que foi paga]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="273" y="28" width="122" height="20" backcolor="#B7A580" uuid="f4a9272b-43d4-4532-9cbe-84979e2d86e3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor da Parcela]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="122" y="2" width="144" height="20" backcolor="#EADCC0" uuid="aa7122d5-ca3c-49a8-b91a-c1e19bd9c242"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CODPARCELA}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="79" width="539" height="2" uuid="ede842a2-e5a6-4b6f-8429-0a5fd547f310"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

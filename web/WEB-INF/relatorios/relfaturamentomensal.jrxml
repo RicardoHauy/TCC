@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relfaturamentomensal" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="05b677a3-9813-4612-a47f-0782b20ada27">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="60"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="dataset1" uuid="e769e0d8-2d6f-4e50-945c-81bf96518f7f">
+		<parameter name="dataini" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dataf" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="ano" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="mes" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select id.coditemdiv, id.descricao as descitem, id.dataocorrencia as dataitem, id.valor as valoritem from pessoa pes, pessoaacao pa, acao ac, divida div, itensdivida id where pes.codpessoa=pa.codpessoa and pa.codacao=ac.codacao and ac.codacao=div.codacao and div.coddivida=id.coddivida and pa.tipopessoa=1 and id.dataocorrencia between $P{dataini} and $P{dataf} order by id.dataocorrencia asc]]>
+		</queryString>
+		<field name="CODITEMDIV" class="java.math.BigDecimal"/>
+		<field name="DESCITEM" class="java.lang.String"/>
+		<field name="DATAITEM" class="java.sql.Timestamp"/>
+		<field name="VALORITEM" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="dataset2" uuid="b505ab61-1f29-446d-b910-145f70e241ba">
+		<parameter name="dataini" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dataf" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="somatorio" class="java.lang.Double">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select parc.codigo as codparcela, parc.valorparcela, parc.dataapagar, parc.dataquepagou from pessoaacao pa, acao ac, divida div, parcela parc where pa.codacao=ac.codacao and ac.codacao=div.codacao and div.coddivida=parc.coddivida and parc.dataquepagou is not null and pa.tipopessoa=1 and parc.dataquepagou between $P{dataini} and $P{dataf} order by parc.dataquepagou asc]]>
+		</queryString>
+		<field name="CODPARCELA" class="java.math.BigDecimal"/>
+		<field name="VALORPARCELA" class="java.lang.Double"/>
+		<field name="DATAAPAGAR" class="java.sql.Timestamp"/>
+		<field name="DATAQUEPAGOU" class="java.sql.Timestamp"/>
+	</subDataset>
+	<subDataset name="dataset3" uuid="9cbfa1d3-463e-4c6d-9305-db17e254c359">
+		<parameter name="dtini" class="java.util.Date"/>
+		<parameter name="dtfim" class="java.util.Date"/>
+		<queryString>
+			<![CDATA[select sum(parc.valorparcela) as totalreceitas from pessoaacao pa, acao ac, divida div, parcela parc where pa.tipopessoa=1 and pa.codacao=ac.codacao and ac.codacao=div.codacao and div.coddivida=parc.coddivida and parc.dataquepagou between $P{dtini} and $P{dtfim}]]>
+		</queryString>
+		<field name="TOTALRECEITAS" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="dataset4" uuid="cbd3a75a-cd14-469c-9478-c47159e6d24c">
+		<parameter name="dtini" class="java.util.Date"/>
+		<parameter name="dtfim" class="java.util.Date"/>
+		<queryString>
+			<![CDATA[select sum(id.valor) as totaldespesas from pessoaacao pa, acao ac, divida div, itensdivida id where pa.codacao=ac.codacao and ac.codacao=div.codacao and div.coddivida=id.coddivida and pa.tipopessoa=1 and id.dataocorrencia between $P{dtini} and $P{dtfim}]]>
+		</queryString>
+		<field name="TOTALDESPESAS" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="dataset5" uuid="449af77e-c558-45fe-bea9-0fca02726242">
+		<parameter name="dtinicio" class="java.util.Date"/>
+		<parameter name="dtfim" class="java.util.Date"/>
+		<parameter name="totrec" class="java.lang.Double">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select sum(valorparcela) as totalparcela from parcela where dataquepagou between $P{dtinicio} and $P{dtfim}]]>
+		</queryString>
+		<field name="TOTALPARCELA" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="datainicio" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datafim" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ano" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mes" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ganhoperda" class="java.lang.Double">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select pes.nome as nomecli, ac.numproc, div.valortotal as valordivida, parc.valorparcela, parc.dataapagar as dataapagarparcela, parc.codigo as codparcela, parc.dataquepagou as dataquepagouparcela from pessoa pes, pessoaacao pa, acao ac, divida div, parcela parc where pes.codpessoa=pa.codpessoa and pa.codacao=ac.codacao and ac.codacao=div.codacao and pa.tipopessoa=1 and div.coddivida=parc.coddivida and parc.dataquepagou is not null and parc.dataquepagou between $P{datainicio} and $P{datafim} order by parc.dataquepagou asc]]>
+	</queryString>
+	<field name="NOMECLI" class="java.lang.String"/>
+	<field name="NUMPROC" class="java.lang.String"/>
+	<field name="VALORDIVIDA" class="java.lang.Double"/>
+	<field name="VALORPARCELA" class="java.lang.Double"/>
+	<field name="DATAAPAGARPARCELA" class="java.sql.Timestamp"/>
+	<field name="CODPARCELA" class="java.math.BigDecimal"/>
+	<field name="DATAQUEPAGOUPARCELA" class="java.sql.Timestamp"/>
+	<variable name="ultdiafev" class="java.lang.Integer">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="somajan" class="java.lang.Double" resetType="None" calculation="Sum">
+		<variableExpression><![CDATA[$F{VALORPARCELA}]]></variableExpression>
+	</variable>
+	<variable name="messtring" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA[$P{mes} == 1 ? "Janeiro" : $P{mes} == 2 ? "Fevereiro" : $P{mes} == 3 ? "Março" : $P{mes} == 4 ? "Abril" : $P{mes} == 5 ? "Maio" : $P{mes} == 6 ? "Junho" : $P{mes} == 7 ? "Julho" : $P{mes} == 8 ? "Agosto" : $P{mes} == 9 ? "Setembro" : $P{mes} == 10 ? "Outubro" : $P{mes} == 11 ? "Novembro" : $P{mes} == 12 ? "Dezembro": ""]]></variableExpression>
+	</variable>
+	<group name="Group2">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
+		<groupHeader>
+			<band height="167">
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="10" y="7" width="538" height="32" backcolor="#846A37" uuid="53fddfe7-5815-4da4-b9e2-01e5601bc8c5"/>
+					<staticText>
+						<reportElement mode="Transparent" x="222" y="3" width="56" height="20" forecolor="#FFFFFF" backcolor="#846A37" uuid="9c852563-557e-4d6c-8211-9dc0fc00ed8a"/>
+						<textElement textAlignment="Justified" verticalAlignment="Middle">
+							<font size="14" isBold="true"/>
+						</textElement>
+						<text><![CDATA[Mês de]]></text>
+					</staticText>
+					<textField>
+						<reportElement mode="Transparent" x="274" y="3" width="90" height="20" forecolor="#FFFFFF" uuid="99644fd6-40bb-4a58-a021-bcc6836fdcec"/>
+						<textElement verticalAlignment="Middle">
+							<font size="14" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{messtring}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement mode="Opaque" x="281" y="45" width="266" height="15" forecolor="#CCCCFF" backcolor="#C9A660" uuid="b4086de8-7b9a-4d0b-b5f6-5bd70c611bd1"/>
+				</frame>
+				<staticText>
+					<reportElement x="356" y="42" width="100" height="20" forecolor="#FFFFFF" uuid="5f2ad68a-5a11-4c21-a553-101c2de62c3f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Despesas]]></text>
+				</staticText>
+				<frame>
+					<reportElement mode="Opaque" x="10" y="45" width="266" height="15" printWhenGroupChanges="Group2" forecolor="#CCCCFF" backcolor="#C9A660" uuid="1d8c9a5f-6b14-4df4-bbb2-a45d97cdb90e"/>
+				</frame>
+				<staticText>
+					<reportElement x="92" y="44" width="100" height="16" printWhenGroupChanges="Group2" forecolor="#FFFFFF" uuid="8ac0798a-c8e5-4c45-99e4-ee6227057d2d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Receitas]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement isPrintRepeatedValues="false" x="282" y="67" width="275" height="98" printWhenGroupChanges="Group2" uuid="d7e409b6-4bc7-4e56-97dd-fdd807026508"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset1" uuid="ea54fc7c-63b9-40d0-894b-6fc970b0cc93">
+							<datasetParameter name="dataini">
+								<datasetParameterExpression><![CDATA[$P{datainicio}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="dataf">
+								<datasetParameterExpression><![CDATA[$P{datafim}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="ano">
+								<datasetParameterExpression><![CDATA[$P{ano}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="mes">
+								<datasetParameterExpression><![CDATA[$P{mes}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="98" width="275">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="122" height="20" backcolor="#B7A580" uuid="ed1337e5-9726-48d2-9041-49f9ef084705"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Código do Item]]></text>
+							</staticText>
+							<textField>
+								<reportElement mode="Opaque" x="121" y="0" width="144" height="20" backcolor="#EADCC0" uuid="93f4b72c-ec91-4166-b674-403667c89482"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{CODITEMDIV}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement mode="Opaque" x="121" y="23" width="144" height="20" backcolor="#EADCC0" uuid="af544005-71cc-44e0-8a66-7c16c146d72d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{DATAITEM}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="23" width="122" height="20" backcolor="#B7A580" uuid="28f09f2f-08f9-4848-8c5a-b2b4f1241f6b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Data da Despesa]]></text>
+							</staticText>
+							<textField pattern="¤ #,##0.00">
+								<reportElement mode="Opaque" x="121" y="46" width="144" height="20" backcolor="#EADCC0" uuid="25777fa0-4e63-4857-9e84-313ba581455e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{VALORITEM}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="46" width="122" height="20" backcolor="#B7A580" uuid="db62b754-32f7-484c-90d3-3c11ff11aea4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Valor]]></text>
+							</staticText>
+							<line>
+								<reportElement x="1" y="95" width="264" height="2" uuid="d3fa1407-9d01-4c0e-969c-62c50bd1c82f"/>
+							</line>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+				<componentElement>
+					<reportElement x="9" y="67" width="267" height="98" uuid="82c32a0e-4849-4a78-ba2a-883ab1b318d9"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset2" uuid="d5912600-d017-4068-94d1-2c37032b13ed">
+							<datasetParameter name="dataini">
+								<datasetParameterExpression><![CDATA[$P{datainicio}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="dataf">
+								<datasetParameterExpression><![CDATA[$P{datafim}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="somatorio">
+								<datasetParameterExpression><![CDATA[]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="98" width="267">
+							<textField>
+								<reportElement mode="Opaque" x="123" y="0" width="144" height="20" backcolor="#EADCC0" uuid="9b87d609-19dc-452c-a584-1b894cc8eb1b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{CODPARCELA}]]></textFieldExpression>
+							</textField>
+							<textField pattern="dd/MM/yyyy">
+								<reportElement mode="Opaque" x="123" y="23" width="144" height="20" backcolor="#EADCC0" uuid="000c62e8-44a9-4ca9-b87b-b9b913a68359"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{DATAAPAGAR}]]></textFieldExpression>
+							</textField>
+							<textField pattern="dd/MM/yyyy">
+								<reportElement mode="Opaque" x="123" y="46" width="144" height="20" backcolor="#EADCC0" uuid="7d377ff8-6691-494e-9579-bcc697dd68cb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{DATAQUEPAGOU}]]></textFieldExpression>
+							</textField>
+							<textField pattern="¤ #,##0.00">
+								<reportElement mode="Opaque" x="123" y="69" width="144" height="20" backcolor="#EADCC0" uuid="36a60c0b-109e-4dc7-9619-e347e50a8514"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{VALORPARCELA}]]></textFieldExpression>
+							</textField>
+							<line>
+								<reportElement x="2" y="93" width="263" height="2" uuid="599f8f38-1041-446e-b5ba-c34ee99163ca"/>
+							</line>
+							<staticText>
+								<reportElement mode="Opaque" x="2" y="0" width="122" height="20" backcolor="#B7A580" uuid="7b334761-c546-4b5d-a2ad-915e8090e251"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Código da Parcela]]></text>
+							</staticText>
+							<staticText>
+								<reportElement mode="Opaque" x="2" y="23" width="122" height="20" backcolor="#B7A580" uuid="379eec33-4c7f-4089-addf-1b914da94dc0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Data a Pagar]]></text>
+							</staticText>
+							<staticText>
+								<reportElement mode="Opaque" x="2" y="46" width="122" height="20" backcolor="#B7A580" uuid="f292d91a-1aad-4734-8e79-0485f8c1b6fd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Data que Pagou]]></text>
+							</staticText>
+							<staticText>
+								<reportElement mode="Opaque" x="2" y="69" width="122" height="20" backcolor="#B7A580" uuid="10a5642e-8d7e-4147-9826-b5b73a505160"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Valor da Parcela]]></text>
+							</staticText>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</band>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="62">
+				<line>
+					<reportElement x="10" y="29" width="537" height="2" uuid="8d789647-df9a-413f-80c4-0a132f94b94d"/>
+				</line>
+				<componentElement>
+					<reportElement x="10" y="4" width="266" height="23" uuid="faede3aa-02ac-429b-9781-d6f929de116c"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset3" uuid="fb644e4c-7f17-45e7-a436-e4231c621d83">
+							<datasetParameter name="dtini">
+								<datasetParameterExpression><![CDATA[$P{datainicio}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="dtfim">
+								<datasetParameterExpression><![CDATA[$P{datafim}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="23" width="266">
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement mode="Opaque" x="122" y="0" width="144" height="20" backcolor="#EADCC0" uuid="ab677039-eaca-4759-afcc-086bf357eab6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TOTALRECEITAS}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement mode="Opaque" x="1" y="0" width="122" height="20" backcolor="#B7A580" uuid="a6c39873-c9de-44ec-9abd-41ce065c0922"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total de Receitas]]></text>
+							</staticText>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+				<componentElement>
+					<reportElement x="282" y="3" width="266" height="23" uuid="14ab421f-1785-4754-a61a-7f46ecb6fe23"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="dataset4" uuid="a63b9dad-c6db-4f3a-b4f7-21c93a289374">
+							<datasetParameter name="dtini">
+								<datasetParameterExpression><![CDATA[$P{datainicio}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="dtfim">
+								<datasetParameterExpression><![CDATA[$P{datafim}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="23" width="266">
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement mode="Opaque" x="121" y="2" width="144" height="20" backcolor="#EADCC0" uuid="926f31ac-e623-4137-a045-7c94b0071962"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TOTALDESPESAS}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement mode="Opaque" x="1" y="2" width="120" height="20" backcolor="#B7A580" uuid="a82600e8-a228-4bbd-8924-4939a0afb71f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total de Despesas]]></text>
+							</staticText>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+				<textField pattern="¤ #,##0.00">
+					<reportElement mode="Opaque" x="249" y="37" width="211" height="20" backcolor="#EADCC0" uuid="fa9f3fda-ecac-42de-a302-ccfee25c16e0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{ganhoperda}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="113" y="37" width="136" height="20" backcolor="#B7A580" uuid="a75809c5-d2cd-4368-8eb3-a4c3cf46d394"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Ganho/Perda]]></text>
+				</staticText>
+			</band>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="161" y="69" width="214" height="22" forecolor="#C9A660" uuid="0cf54ef1-205b-44ea-9940-f2a531277123"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Escritório João Alberto Hauy]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Title" x="161" y="10" width="385" height="62" forecolor="#000000" uuid="e6eef3ef-f3ae-4db2-ba94-f8e8f66a81d5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="22" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Relatório de Faturamento Mensal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="161" y="92" width="383" height="42" uuid="d4c00e6e-29a7-4986-8368-d8964350e016"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[João Alberto Hauy & Renata Aparecida Hauy Advogados]]></text>
+			</staticText>
+			<image>
+				<reportElement x="10" y="21" width="148" height="97" uuid="8a5e69f5-e870-4e24-ae87-e49446260646"/>
+				<imageExpression><![CDATA["C:\\Users\\Cleber\\Desktop\\TCCJSF\\web\\WEB-INF\\relatorios\\logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="58" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="1" y="24" width="555" height="34" forecolor="#CCCCFF" backcolor="#C9A660" uuid="5bc009e9-a321-4535-80ca-d5987701e722"/>
+				<staticText>
+					<reportElement x="233" y="7" width="56" height="20" forecolor="#FFFFFF" uuid="89308eb0-d189-41e3-bc9d-d87c98dbe0a5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ANO]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="282" y="7" width="100" height="20" forecolor="#FFFFFF" uuid="b3cd8bf8-521c-4af6-a0f8-2ca2d2e258ae"/>
+					<textElement verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{ano}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+		<band/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="a23bd6ce-af01-45b1-aa71-ec70e5f67409"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="18310a46-980f-40aa-880b-7ef4c8aa8ed6"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="433" y="0" width="100" height="20" forecolor="#736343" uuid="54dd588e-0165-4442-83a5-cb4132c8ee85"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="cfc939e4-18f9-4a89-aed6-15d1fd914386"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,160 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package Servlets;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import net.sf.jasperreports.engine.JasperRunManager;
+
+/**
+ *
+ * @author RicardoHauy
+ */
+@WebServlet(name = "RelatorioFaturamentoMensal", urlPatterns = {"/RelatorioFaturamentoMensal"})
+public class RelatorioFaturamentoMensal extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+     private Connection getConnection(){
+    
+        Connection con = null;
+        try {
+            
+            Class.forName("oracle.jdbc.OracleDriver");
+            con=DriverManager.getConnection("jdbc:oracle:thin:tcc/tcc@//localhost:1521/XE");
+            
+        } catch (Exception ex) {
+            System.out.println("Erro na Conexão --> "+ex.getMessage());
+        }
+            
+        return con;
+    
+    }
+    
+   
+     
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ServletOutputStream servletOuputStream = response.getOutputStream();
+
+        HttpSession session = request.getSession(true);
+        
+        String rel = session.getAttribute("relatorio").toString();
+         double ganhoperda= Double.valueOf(session.getAttribute("ganhoperda").toString()).doubleValue();
+        Date datainicio = (Date) session.getAttribute("datainicio");
+        Date datafim = (Date) session.getAttribute("datafim");
+        Integer ano = Integer.parseInt(session.getAttribute("ano").toString());
+        Integer mes= Integer.parseInt(session.getAttribute("mes").toString());
+        
+         System.out.println("DATA INICIO = "+datainicio);
+         System.out.println("DATA FIM = "+datafim);
+         System.out.println("ANO = " +ano);
+         System.out.println("Mes = " +mes);
+         System.out.println("ganhoperda = "+ganhoperda);
+         
+        String caminho = "/WEB-INF/relatorios/";
+        String relatorio = caminho+rel;
+        
+        InputStream reportStream = getServletConfig().getServletContext().getResourceAsStream(relatorio);
+        
+        ServletContext context = getServletContext();
+        
+        try {
+
+            Connection connection = getConnection();
+   
+            HashMap map = new HashMap();
+       
+            map.put("ganhoperda", ganhoperda);
+            map.put("datainicio", datainicio);
+            map.put("datafim", datafim);
+            map.put("ano", ano);
+            map.put("mes", mes);
+            
+            JasperRunManager.runReportToPdfStream(reportStream, servletOuputStream, map, connection);
+           
+            response.setHeader("application/pdf", "Content-Type");
+            response.setContentType("application/pdf");
+            
+            servletOuputStream.flush();
+
+            connection.close();
+            
+        } catch (Exception e) {
+            System.out.println("ERRO AO GERAR RELATÒRIO --> "+e.getMessage());
+        } finally {
+
+            if (servletOuputStream != null) {
+                servletOuputStream.close();
+            }
+
+        }
+
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}

@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="/templates/template.xhtml">
+
+        <ui:define name="valorConteudo">
+            <p:growl id="growl" sticky="true"/> 
+            
+            <h:panelGroup styleClass="formLoginAdministrador">
+                <br/>
+                <center>
+                  <p:outputLabel styleClass="tituLoginAdmin" value="Login Administrador"/> 
+                </center>
+    
+                <p:separator styleClass="separador"/>
+                <br/><br/>
+                
+                <center>
+                <h:form>
+                
+                    <p:growl id="growl" sticky="true"/>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="usuario" value="Usuário:"/> 
+                        <p:inputText id="usuario" maxlength="30" required="true" requiredMessage="*Nome de Usuário Obrigatório" value="#{loginBean.login}"/>
+                      
+
+                        <p:outputLabel for="senha" value="Senha:"/> 
+                        <p:inputText type="password" maxlength="30" id="senha" required="true" requiredMessage="*Senha Obrigatória" value="#{loginBean.senha}"/>
+                        
+                    </h:panelGrid>
+
+                    <p:commandButton value="Entrar" update="@form" styleClass="btnEntrarLoginAdministrador" action="#{loginBean.logarAdmin()}" />
+                    <p:commandButton styleClass="btnLimparLoginAdmin" type="reset" value="Limpar" />
+                </h:form>
+
+                <br/>
+                
+                <h:link id="voltarPrincipalModuloAdmin" outcome="index">Voltar</h:link>
+                </center>
+                <br/><br/><br/>
+           </h:panelGroup>
+        </ui:define> 
+
+    </ui:composition>
+
+</html>
+

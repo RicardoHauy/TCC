@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reldeacoesporcliente_subreport4" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ab56917f-cdde-48e3-b1ed-2ee0555f426a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codac" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select id.descricao as descitemdivida, id.dataocorrencia as dtitemdivida, id.valor from acao ac, divida div, itensdivida id where ac.codacao=div.codacao and div.coddivida=id.coddivida and ac.codacao=$P{codac} order by id.dataocorrencia asc]]>
+	</queryString>
+	<field name="DESCITEMDIVIDA" class="java.lang.String"/>
+	<field name="DTITEMDIVIDA" class="java.sql.Timestamp"/>
+	<field name="VALOR" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="129" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Opaque" x="121" y="100" width="144" height="20" backcolor="#EADCC0" uuid="f0398f6d-19c3-46dc-8933-a74dedc15735"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DTITEMDIVIDA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement positionType="Float" mode="Opaque" x="394" y="101" width="144" height="20" backcolor="#EADCC0" uuid="c2451097-6904-44b0-9670-8b00d9292001"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALOR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="272" y="101" width="122" height="20" backcolor="#B7A580" uuid="52e4a41e-bc42-4f65-8129-225b4ee4ae49"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Preço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="-1" y="100" width="122" height="20" backcolor="#B7A580" uuid="a8c63d16-61a0-4264-87a8-ecff2e9825a2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data da Ocorrência]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" mode="Opaque" x="121" y="1" width="417" height="95" backcolor="#EADCC0" uuid="2a011ff3-5f00-4868-a0e2-2d918884b059"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DESCITEMDIVIDA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="1" width="121" height="95" backcolor="#B7A580" uuid="b5b8b213-c385-4c9b-96c7-e63ac1ccbfb8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição do Item]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="125" width="538" height="2" uuid="f9d58408-ecd8-4d9c-828e-7c02770aa6b6"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

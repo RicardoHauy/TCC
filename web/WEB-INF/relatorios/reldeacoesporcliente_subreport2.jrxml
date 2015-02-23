@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reldeacoesporcliente_subreport2" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c943bfd2-8c39-49d4-ba7e-56ef9e2697e4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codac" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select div.datadageracao as dtgerdivida, div.valortotal as valortotdivida from acao ac, divida div where ac.codacao=div.codacao and ac.codacao=$P{codac} order by div.datadageracao asc]]>
+	</queryString>
+	<field name="DTGERDIVIDA" class="java.sql.Timestamp"/>
+	<field name="VALORTOTDIVIDA" class="java.lang.Double"/>
+	<group name="Grupo DIVIDA">
+		<groupExpression><![CDATA[$P{codac}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="394" y="2" width="144" height="20" backcolor="#EADCC0" uuid="90bdc940-a647-48e3-9445-ae5a5875de74"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALORTOTDIVIDA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="2" width="121" height="20" backcolor="#B7A580" uuid="d470a9c4-3bbc-4d03-b15f-ea73bbf01a24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data da Geração]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="272" y="2" width="122" height="20" backcolor="#B7A580" uuid="14e3dccf-8c9b-4538-8ba4-bc94f0457925"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Total da Dívida]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="121" y="2" width="144" height="20" backcolor="#EADCC0" uuid="19a52be7-6f2d-44ae-aa0a-47f5b5b91a69"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DTGERDIVIDA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

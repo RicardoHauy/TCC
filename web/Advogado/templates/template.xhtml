@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>SisBDAdiv - Sistema de Banco de Dados para Advocacia</title>
+        <!--   <link rel="stylesheet" type="text/css" href="css/estilo.css"/>-->
+        <h:outputStylesheet library="css" name="estilo.css"/>
+
+        <h:outputScript library="js" name="jquery.maskMoney.js"/>
+        <h:outputScript library="js" name="calendar.js"/>
+    </h:head>
+    <h:body>
+        <div id="container">
+
+            <div id="cabecalho">
+                <ui:include src="/templates/cabecalho.xhtml"/>             
+            </div>
+
+            <div id="menu">
+
+
+                <ui:include src="menu.xhtml"/> 
+
+
+            </div>
+
+            <div id="centro">
+
+                <ui:insert name="valorConteudo">
+
+                </ui:insert>
+
+            </div>
+
+            <div id="divbtnchat">
+                <h:form>
+                    <p:commandButton value="Notificações" update=":dialogchat" styleClass="btnchat" title="Ver Notificações" icon="ui-icon-search" actionListener="#{notificacaoBean.atualizarNotificacao()}" oncomplete="PF('dialogchat').show()"/> 
+                    <p:graphicImage library="img" name="alert.gif" rendered="#{notificacaoBean.contNotificacao != chatBean.contNotificacao}" styleClass="imgalert"/>          
+                    <p:poll interval="4" update="@form"/>
+                </h:form>
+                
+            </div>
+ 
+            <div id="rodape">
+
+                <ui:include src="/templates/rodape.xhtml"/>
+
+            </div>
+
+ <p:dialog id="dialogchat" widgetVar="dialogchat" modal="true" closeOnEscape="true" resizable="false" header="Notificações">
+
+          <h:form id="formchat"  rendered="#{loginBean.usuario!=null}" style='margin:10px;'>
+
+                    <h:panelGroup layout="block" style="height:300px;overflow-y:scroll">
+
+                        <h:dataTable id="dttableChat" var="msg" value="#{chatBean.listademensagens}" rowClasses="tableFirstLine,tableNextLine">
+
+                            <h:column>
+
+                                <h:outputText value="#{msg}"/>
+
+                            </h:column> 
+
+
+
+                        </h:dataTable>
+                    </h:panelGroup>                      
+
+          <!--    <p:poll interval="30" update="dttableChat"/>-->
+                </h:form>
+</p:dialog>
+        </div>
+    </h:body>
+</html>
+

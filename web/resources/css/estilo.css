@@ -1,0 +1,893 @@
+#container{
+    width: 1300px;
+    margin: 0 auto;
+
+}
+
+.tamanhoslctReu, .escolhaCliente{
+    
+    width: 433px !important;
+    
+    
+}
+.imgalert{
+    
+
+    width:30px;
+    height: 30px;
+    position: relative;
+    top:8px;
+    
+}
+
+.tableFirstLine {
+    text-align: center;
+    background: none repeat scroll 0 0 #F9F9F9;
+    border-top: 1px solid #BBBBBB;
+}
+ 
+.tableNextLine {
+    text-align: center;
+    background: none repeat scroll 0 0 #FFFFFFF;
+    border-top: 1px solid #BBBBBB;
+}
+
+
+
+#chat{
+    
+    border: 2px solid #5f3c24;
+    width:209px;
+    height: 180px;
+    margin-top: 250px;  
+    margin-bottom: 20px;
+}
+.dlgpedemes{
+    
+    position:absolute !important;
+    top:210px !important;
+}
+
+.btnAndamentoAcao{
+    
+    position: absolute;
+    left:160px;
+    top:0px
+}
+
+.txtdtocorrenciahist{
+    
+    width: 100px !important;
+    
+}
+
+.descricaoOcorrencia{
+    
+    margin-left: 73px !important;
+    
+}
+
+.descricaoID{
+    
+    margin-left: 77px !important;
+    
+}
+
+.campovlriv{
+    
+    margin-left: 110px !important;
+    
+}
+
+.panelGridDIRDadosAcao{
+    
+    position:absolute;
+    left: 550px;
+    top: 75px;
+
+}
+
+.imgRelPdf{
+    
+    position: absolute;
+    top: 185px;
+    left:540px;
+    width: 40px;
+    
+}
+
+
+.campodtapagarcadparc{
+
+    margin-left: 40px;
+    
+}
+.txtdtapagarcadparc{
+    
+    margin-left: 28px;
+    
+}
+.campovalordaparcela{
+    
+     margin-left: 40px;
+}
+
+.escolhaTipoPag{
+    
+    width: 337px !important;
+    
+}
+
+.detalhesCliCpf{
+    
+     margin-left: 40px !important;
+    
+}
+
+.campodtgerdiv{
+    
+    margin-left: 70px !important;
+    
+}
+
+.escolhaAcao{
+    
+    width: 317px !important;
+    
+    
+}
+
+.tamanhoslctTipoSentenca{
+    
+    width: 317px !important;
+    
+}
+
+.detalhesCliCnpj{
+    
+     margin-left: 40px !important;
+    
+}
+
+.btninserirsentencaAcao{
+    
+  position:relative;
+  left:300px;
+    
+}
+
+.cmdlnkGerarRelComplAcao{
+    
+    position:relative;
+    left:-610px;
+    top:-188px;
+}
+
+.panelGridDirDetalhesDivida{
+    
+    position:absolute;
+    left: 500px;
+    top:70px;
+    
+}
+
+.panleGriddirDadosDiv{
+    
+    position:absolute;
+    left:500px;
+    top:326px;
+    
+}
+
+
+
+body{
+    background: #F5F5DC;
+}
+
+.escolhaInteressados{
+    
+   width:387px !important;
+    
+}
+
+.campodtentrar{
+    
+   //  margin-left: 16px;
+}
+
+.txtdtentrar{
+
+  //  margin-left: 25px !important;
+    
+}
+
+.pngrdtproxalt{
+    
+    position:absolute;
+    left:480px;
+    top:223px;
+    
+    
+}
+
+
+.pngrvalordaacao{
+    
+ 
+   
+    
+    
+    
+}
+
+
+.pngrobservacao{
+    
+    position:absolute;
+    top:300px;
+    left:490px;
+ //   z-index: 1;
+    
+}
+.observacoesAcaoTamanho{
+    
+    width: 283px;
+    
+    height:138px;
+}
+
+.btnSalvarAcao{
+    
+    width:150px !important;
+    
+}
+
+.campodtdistr{
+    
+  //  margin-left: 20px;
+    
+}
+
+.campodtproxalteracao{
+    
+   // margin-left: 18px;
+    
+}
+
+.panelGridDescSent{
+    
+    position: absolute;
+    left: 380px;
+    top:85px;
+}
+
+.panelGridLadoDireito{
+    position: absolute;
+    left: 500px;
+    top: 127px;
+}
+
+//.descracao{
+    
+//    margin-left: 62px !important;
+    
+//}
+
+//.pngrdescrac{
+    
+//    position:relative;
+    
+//    top: -305px;
+//    left:475px;
+//}
+
+.pngrtipoacao{
+    
+    position:absolute;
+    
+    left:500px;
+    top:88px;
+    
+}
+
+.camponumpastacad{
+    
+    margin-left: 20px !important;
+    
+}
+
+.camponumgavetacad{
+    
+    margin-left: 8px !important;
+    
+}
+
+.escolhaTipoAcao{
+    
+    width:540px !important;
+    
+}
+
+.txtdtdistr{
+    
+  //  margin-left: 51px !important;
+    
+}
+
+.camponumproc{
+    position:relative;
+    
+}
+.dttableInteressados{
+    
+    width:437px !important;
+    
+}
+
+.txtnumproc{
+    
+    width:252px !important;
+   
+}
+
+.btnAddInteressado{
+    
+     height: 31.5px !important;
+     position: relative;
+     top: -2px;
+   
+    
+}
+
+.campoCepEspacoEsquerda{
+    
+    
+    margin-left: 2px;
+    
+    
+}
+
+.escolhaReu{
+    
+    margin-left: 20px;
+    
+}
+
+.telaAcoes{
+    
+    width: 1000px !important;
+    
+}
+
+.detalhesCpf{
+    
+    color: #660000;
+}
+
+.detalhesCnpj{
+     color: #660000;
+    
+}
+
+.dataTablePastas{
+    
+    width: 470px;
+    
+    
+}
+
+.dataTableCidades{
+    
+
+    width: 470px;
+    
+}
+
+.btnCidadesPessoa{
+    
+    width: 170px;
+    
+}
+
+.btnAcoesPessoa{
+    
+    width: 170px;
+    margin-left: 40px;
+    
+}
+
+.observacoesTamanhoDetalhes{
+    
+    width: 470px;
+    
+    height: 150px;
+    
+}
+
+.advogadocadastrouDetalhes{
+    
+    color: #660000;
+}
+
+.observacaoDetalhes{
+    
+     color: #660000;
+}
+
+.btnObservacoesPessoa{
+    
+    width: 170px !important;
+    
+}
+.btnPastasPessoa{
+    
+    margin-left: 40px;
+    
+    width: 170px !important;
+    
+}
+
+.labelemailEspacoEsquerda{
+    
+    margin-left: 20px;
+    margin-right: 67px; 
+    
+}
+
+.detalhesEmailEspacoEsquerda{
+   
+    color: #660000;
+  
+    
+}
+
+.complementoDetalhes{
+    
+    color: #660000;
+    
+}
+
+.nomeCliDetalhes{
+    
+    margin-left: 40px;
+    
+}
+
+.detalhesreuCpf{
+    
+    margin-left: 40px;
+    
+}
+
+.detalhesreuCnpj{
+    
+    margin-left: 40px;
+    
+}
+
+.nomereuDetalhes{
+    
+      margin-left: 40px;
+    
+}
+
+//.fieldCliente{
+    
+//    position:relative;
+    
+//    left: 470px;
+//    top: -93px;
+    
+    
+//}
+
+.corDoDado{
+    color: #660000;
+}
+
+.numrgDetalhes{
+    
+  
+    color: #660000;
+}
+.telefoneDetalhes{
+     margin-left: 78px;
+    color: #660000;
+}
+
+.celularDetalhes{
+     
+    color: #660000;
+    
+}
+
+.detalhesRua{
+    
+    margin-left: 20px;
+    color: #660000;
+    
+}
+
+.numcasaDetalhes{
+    
+     margin-left: 85px;
+    color: #660000;
+    
+}
+.estadoDetalhes{
+    
+    color: #660000;
+    
+}
+
+.cidadeDetalhes{
+    
+    margin-left: 128px;
+    color: #660000;
+}
+.bairroDetalhes{
+
+    color: #660000;
+    
+}
+
+.cepDetalhes{
+    
+    color: #660000;
+    
+}
+
+
+.campoNomePessoa{
+    
+    margin-left: 20px;
+    
+}
+
+.camponomeEspacoDireita{
+    
+    margin-right: 65px;
+    
+}
+
+.tituLoginAdmin{
+    
+    font-size: 23px;
+    color: #5f3c24;
+    
+    
+}
+
+.separador{
+    
+    position:relative;
+    top: 10px;
+    
+}
+
+#cabecalho{
+    height: 140px;  
+    background-color:#5f3c24;
+    background-image:linear-gradient(to bottom, transparent 1px, rgba(0,0,0,.1) 1px);
+    background-size: auto 4px;  
+    border-bottom: 10px solid #D2B48C;
+    border-radius: 0.5em;
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+#menu{
+    float: left;
+ //   width: 220px;
+ //   height: 715px;
+    margin: 10px 0;
+    border-radius: 0.5em;
+ //   background: #ffffff;
+}
+
+#nomeautor{
+    
+    position:relative;
+    left: 320px;
+    
+}
+
+.imgPrincipal{
+    
+    
+    width: 300px;
+    height: 350px;
+    
+}
+
+.btnAlterarDadosUsuario{
+    
+    width: 70px !important;
+   
+    
+    
+}
+.ui-confirmdialog-yes{
+    margin-left: 15px !important;
+    width: 130px !important; 
+    
+}
+.ui-confirmdialog-no{
+    
+    margin-left: 12px !important;
+    width: 130px !important; 
+    
+}
+.btnExcluirUsuario{
+    
+    width: 70px !important;
+  
+    
+}
+
+
+.formLoginAdministrador{
+    
+   // position:relative;
+   // left: 240px;
+    
+    
+}
+
+.btnLimparCadAdmin{
+    
+    position: absolute;
+   left:0px;
+    width:130px;
+    
+}
+
+.lblUsuario{
+    
+    font-size: 21px;
+    
+}
+
+.lblSenha{
+    
+    font-size: 21px;
+    
+}
+
+.txtusuario{
+    
+    position:relative;
+    left: -57px;
+    
+    
+}
+
+.txtSenha{
+    
+     position:relative;
+    left: -57px;
+    
+}
+
+.btnCancelarCadAdmin{
+    
+    position: absolute;
+    top: 45px;
+    left: -130px;
+    
+}
+
+
+.btnSalvarCadAdministrador{
+    
+   
+    width: 130px;
+    
+}
+
+.btnEntrarLoginAdministrador{
+    
+    position: relative;
+    left:-5px;
+    width: 130px;
+    
+}
+
+.btnLimparLoginAdmin{
+    
+    width:130px;
+    position:relative;
+    left:6px;
+    
+}
+
+.cabnomeempresa{
+    padding-top: 10px;
+  //  margin-top: 10px !important;
+    
+}
+
+#centro{
+    float: right;
+    width: 1075px;
+    height: auto;
+    margin: 10px 0;
+    border-radius: 0.5em;
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+    background: #ffffff;    
+}
+
+#rodape{
+    clear: both;
+    height: 20px;
+    background: #D2B48C; 
+    border-radius: 0.5em;
+}
+
+.imgLogo{
+    margin-left: 50px;
+    margin-top: 10px;   
+}
+
+#divLugarTexto{
+    height: 100px;
+    background-image: linear-gradient(#F5F5DC, #D2B48C);
+    margin-top: -103px;
+    margin-left: 145px;
+    margin-right: 145px;
+    border-radius: 1em 1em 0 0; 
+}
+
+#labelNomeEmpresa{
+ //   margin-left: 260px;
+ //   margin-right: 260px;
+  //  position: absolute;
+  //  top: 80px;
+  //  left: 130px;
+    font-size: 22px;
+    text-shadow: 2px 2px #ffffff;
+    
+}
+
+#labelNomeAdvogados{
+    
+ //   margin-left: 260px;
+//    margin-right: 260px;
+//    position: absolute;
+//    top: 110px;
+//    left:210px;
+    font-size: 15px;
+    text-shadow: 2px 2px #ffffff;
+    
+}
+
+#voltarParaModuloAdmin{
+    
+    position: relative;
+    top:45px;
+    
+}
+
+.tituloacao{
+    
+    font-size: 22px !important;
+//    text-shadow: 1px 2px #5f3c24 !important;
+    
+    font-weight: bold;
+    
+   
+    
+}
+
+.campocpfEspacoEsquerda{
+    
+    margin-left: 34px;
+    
+}
+
+.campocpfEspacoDireita{
+    
+    margin-right: 29px;
+    
+}
+
+.campocnpjEspacoEsquerda{
+    
+    margin-left: 16px;
+    
+}
+
+.campocnpjEspacoDireita{
+    
+    margin-right: 23px;
+    
+}
+
+.campocomplementoEspacoEsquerda{
+    
+    margin-left: 22px;
+    
+}
+
+.labelruaEspacoEsquerda{
+    
+    margin-left: 22px;
+    
+    
+}
+
+.labelruaEspacoDireita{
+    
+    margin-right: 33px;
+    
+}
+
+.camporgEspacoEsquerda{
+    
+    margin-left: 20px;
+    
+}
+
+.camporgEspacoDireita{
+    
+    margin-right: 89px
+    
+}
+
+.observacoesTamanho{
+    
+    width: 818px;
+    
+}
+
+.camponumcasaEspacoEsquerda{
+    
+    margin-left: 173px;
+    
+}
+
+.campoBairroEspacoEsquerda{
+    
+    margin-left: 20px;
+    
+}
+
+.campocepEspacoDireita{
+    
+    margin-right: 40px;
+    
+}
+
+.campocelularEspacoEsquerda{
+    
+    margin-left: 22px;
+    
+}
+
+.campobairroEspacoDireita{
+    
+    margin-right: 13px;
+    
+}
+
+.campocelularEspacoDireita{
+    
+    margin-right: 5px;
+    
+}
+
+.campoestadoEspacoDireita{
+    
+    margin-right: 18px;
+    
+}
+
+.campocidadeEspacoEsquerda{
+    
+    margin-left: 20px;
+    
+}
+.campocidadeEspacoDireita{
+    
+    margin-right: 56px;
+}

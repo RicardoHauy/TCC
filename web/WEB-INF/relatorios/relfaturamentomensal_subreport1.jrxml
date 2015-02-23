@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relfaturamentomensal_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="85c33add-dd87-4c45-8c50-0c99308392ea">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="anoAtual" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="bisexto" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select pes.nome as nomecli, ac.numproc, div.valortotal as valordivida, parc.valorparcela, parc.dataapagar as dataapagarparcela, parc.codigo as codparcela, parc.dataquepagou as dataquepagouparcela from pessoa pes, pessoaacao pa, acao ac, divida div, parcela parc where pes.codpessoa=pa.codpessoa and pa.codacao=ac.codacao and ac.codacao=div.codacao and pa.tipopessoa=1 and div.coddivida=parc.coddivida and parc.dataquepagou is not null and parc.dataquepagou between TO_DATE('01/01/2014','DD/MM/YYYY') and TO_DATE('31/01/2014','DD/MM/YYYY')]]>
+	</queryString>
+	<field name="NOMECLI" class="java.lang.String"/>
+	<field name="NUMPROC" class="java.lang.String"/>
+	<field name="VALORDIVIDA" class="java.lang.Double"/>
+	<field name="VALORPARCELA" class="java.lang.Double"/>
+	<field name="DATAAPAGARPARCELA" class="java.sql.Timestamp"/>
+	<field name="CODPARCELA" class="java.math.BigDecimal"/>
+	<field name="DATAQUEPAGOUPARCELA" class="java.sql.Timestamp"/>
+	<variable name="totalpormes" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{VALORPARCELA}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="datainicio" class="java.util.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="49" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="122" y="1" width="416" height="20" backcolor="#EADCC0" uuid="01f6c974-0fbf-4ec8-a83f-5067c9a011e4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NOMECLI}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="25" width="122" height="20" backcolor="#B7A580" uuid="5aaaa14f-85a8-4902-85a4-3e27b69b8333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número do Processo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="1" width="122" height="20" backcolor="#B7A580" uuid="d5dbdafe-6403-4dfe-b4d6-1f3053c67926"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="122" y="25" width="144" height="20" backcolor="#EADCC0" uuid="1a8f712f-b0f9-4bb2-b870-53af6f6c4504"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NUMPROC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement mode="Opaque" x="394" y="25" width="144" height="20" backcolor="#EADCC0" uuid="014fcf3e-3f23-44e6-ae97-ce24da94e288"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALORDIVIDA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="272" y="25" width="122" height="20" backcolor="#B7A580" uuid="c2b0d70a-daaf-4aa1-9f1d-09f1150d24dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor da Dívida]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="74" splitType="Stretch">
+			<textField pattern="¤ #,##0.00">
+				<reportElement mode="Opaque" x="394" y="23" width="144" height="20" backcolor="#EADCC0" uuid="b20abb46-b6d6-4067-b160-d8ba24042427"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALORPARCELA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="272" y="23" width="122" height="20" backcolor="#B7A580" uuid="ed0123f7-aa7a-43c0-8ffa-25cf8dd6f0e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor da Parcela]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="122" y="48" width="144" height="20" backcolor="#EADCC0" uuid="9b577e54-4105-43c1-8cd5-3474d99a6d2e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATAAPAGARPARCELA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="48" width="121" height="20" backcolor="#B7A580" uuid="d61fe9fa-3173-49cf-8892-6016823edd54"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data a Pagar]]></text>
+			</staticText>
+			<frame>
+				<reportElement mode="Opaque" x="1" y="4" width="537" height="15" forecolor="#CCCCFF" backcolor="#C9A660" uuid="ee4b6a2e-eecb-4997-a1c7-546fc77072eb"/>
+				<staticText>
+					<reportElement x="226" y="0" width="100" height="15" forecolor="#FFFFFF" uuid="9d434a1b-31a2-45ba-8424-d238dcecf4cc"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Parcela]]></text>
+				</staticText>
+			</frame>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="23" width="122" height="20" backcolor="#B7A580" uuid="92679660-9852-4256-9229-3ae21eed2f06"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código Parcela]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="122" y="23" width="144" height="20" backcolor="#EADCC0" uuid="b58f88f0-5a9e-4036-8ab6-7d7cfdb85f36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CODPARCELA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="273" y="48" width="121" height="20" backcolor="#B7A580" uuid="24ec7266-0807-4f92-a17b-9d6dfdea5707"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data que Pagou]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="394" y="48" width="144" height="20" backcolor="#EADCC0" uuid="8504aab6-4e16-4901-a76c-d22401691ad0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATAQUEPAGOUPARCELA}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="72" width="537" height="2" uuid="b7728e5a-f718-4622-9564-034b02d63a3c"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="26" splitType="Stretch">
+			<textField pattern="¤ #,##0.00">
+				<reportElement mode="Opaque" x="268" y="2" width="144" height="20" backcolor="#EADCC0" uuid="62e77802-407c-4b07-993f-e508dcd23640"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALORPARCELA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="146" y="2" width="122" height="20" backcolor="#B7A580" uuid="e0e16f67-f5ba-476d-84a4-aac34cf84c9f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Mês]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

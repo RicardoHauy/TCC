@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="templates/template.xhtml">
+
+        <ui:define name="valorConteudo">
+
+            <br/>
+
+            <p:dialog id="telaCadastroTipoAcao"  modal="true" closeOnEscape="true" onHide="#{tipoAcaoBean.novoCadastroTipoAcao()}" resizable="false" header="Ação" widgetVar="telaCadastroTipoAcao">
+
+                <h:form id="formdialogcadastrotipoacoes" prependId="false" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+                   
+                    <center>
+                        <h:outputText styleClass="tituloacao" value="Inserindo Tipo" rendered="#{tipoAcaoBean.tipoAcao.codigo==null}"/>
+
+                        <h:outputText styleClass="tituloacao" value="Alterando Tipo" rendered="#{tipoAcaoBean.tipoAcao.codigo!=null}"/>
+                    </center>
+
+                    <br/>
+                    <br/>
+
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel styleClass="camponometipo" for="nometipo" value="Nome do Tipo: "/> 
+                        <p:inputText id="nometipo" required="true" requiredMessage="Campo Nome do Tipo Obrigatório" styleClass="txtnometipo" value="#{tipoAcaoBean.tipoAcao.nome}"/> 
+
+                    </h:panelGrid>
+<br/>
+                    <p:separator/>
+                    <center>
+                        <p:commandButton styleClass="btnSalvarAcao" value="Salvar" actionListener="#{tipoAcaoBean.salvarTipoAcao()}" update="@form, :formDataTableTipoacoes" oncomplete="PF('dataTableTipoAcoes').filter()" title="Salvar Tipo" icon="ui-icon-disk"/>
+                    </center>
+
+                </h:form>
+            </p:dialog> 
+
+
+            <h:form id="formDataTableTipoacoes">
+                <p:growl id="growl" sticky="true"/>
+                <p:commandButton update=":formdialogcadastrotipoacoes" oncomplete="PF('telaCadastroTipoAcao').show()" actionListener="#{tipoAcaoBean.novoCadastroTipoAcao()}" value="Inserir Novo Tipo" icon="ui-icon-plusthick"/>
+                <p:dataTable id="dataTableTipoAcoes" widgetVar="dataTableTipoAcoes" var="tipo" value="#{tipoAcaoBean.listaTodosTipos()}" 
+                             emptyMessage="Não Há Registro de Tipos!" paginator="true" resizableColumns="true" rows="6">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Tipos das Ações Cadastrados" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column width="110"  filterBy="#{tipo.codigo}" headerText="Código Tipo" filterMatchMode="startsWith">
+
+                        <h:outputText value="#{tipo.codigo}" />
+                    </p:column>
+
+                    <p:column filterBy="#{tipo.nome}" headerText="Tipo" filterMatchMode="startsWith">
+
+                        <h:outputText value="#{tipo.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Alterar" width="80">
+                        <center>
+                            <p:commandButton update=":formdialogcadastrotipoacoes" styleClass="btnAlterarDadosUsuario" title="Alterar" icon="ui-icon-pencil" actionListener="#{tipoAcaoBean.alterarTipo(tipo)}" oncomplete="PF('telaCadastroTipoAcao').show()" />
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Excluir" width="80">
+                        <center>
+                            <p:commandButton update="@form" styleClass="btnExcluirUsuario" disabled="#{tipoAcaoBean.desabilitarExcluir(tipo)}" oncomplete="PF('dataTableTipoAcoes').filter()" title="Excluir" actionListener="#{tipoAcaoBean.excluirTipo(tipo)}" icon="ui-icon-trash"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                        </center>
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                </p:confirmDialog>
+                <center>
+                    <h:link outcome="moduloAdvogado">Voltar</h:link>
+                </center>
+
+            </h:form>
+
+        </ui:define> 
+
+    </ui:composition>
+
+</html>
+

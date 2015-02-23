@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="templates/template.xhtml">
+
+        <ui:define name="valorConteudo">
+            <br/>
+
+            
+
+            <!--Tela que Lista Todos os Itens adicionais da despesa-->
+            <p:dialog id="teladtTableItensDivida" modal="true"  closeOnEscape="true" resizable="false" header="Itens de Despesas" width="1320" widgetVar="teladtTableItensDivida">
+                <h:form id="formdialogdtTableItensDivida" style='margin:10px;' rendered="#{dividaBean.divida!=null}">
+                    <p:growl id="growl" sticky="true"/>
+
+                    <p:commandButton id="cmdb" update=":telaCadastroDespesa" oncomplete="PF('telaCadastroDespesa').show()" actionListener="#{dividaBean.novoCadastroDespesa()}" value="Inserir Despesa" icon="ui-icon-plusthick"/>
+
+                    <p:dataTable id="dataTableDespesas" var="itensDespesa" value="#{dividaBean.listaTodosItensDespesa(dividaBean.divida)}" 
+                                 emptyMessage="Não Há Registro de Despesas!" paginator="true" resizableColumns="true" rows="4" widgetVar="dataTableDespesas">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Despesas Adicionais" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column headerText="Data da Ocorrência" width="50">
+                            <h:outputText value="#{itensDespesa.dataocorrencia}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+
+                        <p:column headerText="Descrição" width="180">
+                            <h:outputText value="#{itensDespesa.descricao}"/>
+                        </p:column>
+
+
+                        <p:column headerText="Valor" width="60">
+                            <h:outputText value="#{itensDespesa.valor}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>           
+                        </p:column>
+
+                        <p:column headerText="Excluir" width="50">
+                            <center>
+                                <p:commandButton update="@form, :formdialogDetalhesDivida" styleClass="btnExcluirUsuario" title="Excluir" actionListener="#{dividaBean.excluirDespesa(itensDespesa)}" icon="ui-icon-trash" oncomplete="PF('dataTableDespesas').filter()"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                            </center>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                    </p:confirmDialog>
+
+
+                </h:form>   
+            </p:dialog>            
+            <!--Fim tela que lista todos os itens adicionais da despesa-->
+
+
+
+
+            <!--Tela Cadastro de despesas-->
+            <p:dialog id="telaCadastroDespesa" modal="true"  closeOnEscape="true" resizable="false" header="Adicionar Valor Ao Total" widgetVar="telaCadastroDespesa">
+                <h:form id="formdialogCadDesp" style='margin:10px;' rendered="#{dividaBean.divida!=null}">
+                    <p:growl id="growl" sticky="true"/>
+     <script>$(".campovlriv").maskMoney({showSymbol: true, symbol: "R$", decimal: ",", thousands: ".", allowZero: true});</script> 
+<!-- <script>$("#valorcombinado").maskMoney({showSymbol: true, symbol: "R$", decimal: ",", thousands: ".", allowZero: true});</script>
+-->
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel styleClass="campodescItemDivida" for="cmpdescid" value="Descrição: "/>
+                        <p:inputTextarea id="cmpdescid" maxlength="98" styleClass="descricaoID" value="#{dividaBean.itensDivida.descricao}"/>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+                        
+                        <h:outputLabel styleClass="campodtocorreciacaditem" for="campodtocorrencia" value="Data da Ocorrência: "/> 
+                        <p:calendar id="campodtocorrencia" title="Escolha a Data da Ocorrência deste Item" styleClass="txtdtocorrencia" locale="pt_BR" required="true" requiredMessage="Campo Data Da Ocorrência Obrigatório!" value="#{dividaBean.itensDivida.dataocorrencia}"/> 
+                   
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel styleClass="campovalordaacao" for="cmpvaloradd" value="Valor: "/>
+                        <p:inputText id="cmpvaloradd" maxlength="20" styleClass="campovlriv" value="#{dividaBean.itensDivida.valor}" converterMessage="No campo Valor preencha com valores Numéricos com 2 algarismos depois da Vírgula" converter="converter.MoneyConverter"/>
+
+                    </h:panelGrid>
+                    <p:separator/>
+
+                    <center>
+                        <p:commandButton styleClass="btnSalvarAcao" value="Salvar" actionListener="#{dividaBean.salvarDespesa()}" update="@form, :formdialogDetalhesDivida, :formdialogdtTableItensDivida" oncomplete="PF('dataTableDespesas').filter()" title="Adicionar Despesa" icon="ui-icon-disk"/>
+                    </center>
+
+                </h:form>   
+            </p:dialog>            
+            <!--FIm Tela de cadastro de despesas-->
+
+
+            <!--Tela Que Exibe Detalhes da Parcela-->
+            <p:dialog id="telaDetalhesParcela" modal="true"  closeOnEscape="true" resizable="false" width="530" header="Detalhes da Parcela código = #{parcelaBean.parcela.codigo}" widgetVar="telaDetalhesParcela">
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel styleClass="tipoPagDetalhesParcela corDoDado" for="tipoPagDetalhesParcela" value="Tipo de Pagamento:"/> 
+                    <h:outputText id="tipoPagDetalhesParcela" value="#{parcelaBean.parcela.tipopagamento.nome}"/>        
+                </h:panelGrid>
+
+            </p:dialog>            
+            <!--FIM Tela QUe Exibe detalhes da Parcela-->
+
+
+            <!--Tela Que Insere Pagamento da Parcela-->
+            <p:dialog id="telaInserirPagamento" modal="true"  closeOnEscape="true" resizable="false" width="530" header="Inserir Pagamento da Parcela código = #{parcelaBean.parcela.codigo}" widgetVar="telaInserirPagamento">
+                <h:form id="formdialogInserirPagamento" style='margin:10px;' rendered="#{dividaBean.divida!=null}">
+                    <p:growl id="growl" sticky="true"/>
+                    <h:outputLabel styleClass="campodtaquepagouinserirPagamento" for="campodtaquepagouinserirPagamento" value="Data Do Pagamento: "/> 
+                    <p:calendar id="campodtaquepagouinserirPagamento" title="Escolha a Data que Pagou esta Parcela" styleClass="txtdtapagarcadparc" locale="pt_BR" required="true" requiredMessage="Campo Data Do Pagamento Obrigatório!" value="#{parcelaBean.parcela.dataquepagou}"/> 
+                    <br/>
+                    <p:separator/>
+
+                    <center>
+                        <p:commandButton styleClass="btnSalvarAcao" value="Inserir Pagamento" actionListener="#{parcelaBean.inserirPagamento()}" update="@form, :formDataTableparcela, :formdialogDetalhesDivida" title="Inserir Pagamento" icon="ui-icon-suitcase"/>
+                    </center>
+
+                </h:form>
+            </p:dialog>  
+            <!--FIM Tela Que Insere Pagamento da Parcela-->
+
+
+
+
+
+            <!--Tela de Cadastro de Parcelas-->
+            <p:dialog id="telaCadastroParcela"  modal="true" closeOnEscape="true" resizable="false" header="Parcela" widgetVar="telaCadastroParcela" width="790">
+
+                <h:form id="formdialogcadastroparcela" rendered="#{parcelaBean.parcela!=null}" prependId="false" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+                    <script>$("#valordaparcela").maskMoney({showSymbol: true, symbol: "R$", decimal: ",", thousands: ".", allowZero: true});</script>
+
+                    <center>
+                        <h:outputText styleClass="tituloacao" value="Criando Parcela" rendered="#{parcelaBean.parcela.codigo==null}"/>
+                    </center>
+
+                    <br/>
+                    <br/>
+
+                    <h:panelGrid columns="3">
+
+                        <p:selectOneMenu styleClass="escolhaTipoPag" value="#{parcelaBean.parcela.tipopagamento}"  
+                                         height="250"
+                                         effect="fade" var="p" required="true" requiredMessage="Escolha do Tipo de Pagamento Obrgatória">  
+
+                            <f:selectItem itemLabel="Selecione o Tipo de Pagamento" itemValue="#{null}" />  
+
+                            <f:selectItems value="#{parcelaBean.listadetodostipospagamento}"  
+                                           var="tipo" itemLabel="#{tipo.nome}"  
+                                           itemValue="#{tipo}"/>  
+
+                            <p:column>  
+                                #{p.nome} 
+                            </p:column>  
+
+                        </p:selectOneMenu> 
+
+
+                        <h:outputLabel styleClass="campodtapagarcadparc" for="dtapagarcadparc" value="Data a Pagar: "/> 
+                        <p:calendar id="dtapagarcadparc" title="Escolha a Data que o Devedor Deverá Pagar esta Parcela" styleClass="txtdtapagarcadparc" required="true" requiredMessage="Campo Data a Pagar Obrigatório!" locale="pt_BR" value="#{parcelaBean.parcela.dataapagar}"/> 
+
+                    </h:panelGrid>   
+
+                    <h:panelGrid columns="4">
+
+                        <h:outputLabel styleClass="campodtquepagoucadparc" for="campodtquepagoucadparc" value="Data que Pagou: "/> 
+                        <p:calendar id="campodtquepagoucadparc" title="Escolha a Data que o Devedor Finlamete PAGOU esta Parcela" styleClass="txtdtquepagoucadparc" locale="pt_BR" value="#{parcelaBean.parcela.dataquepagou}"/> 
+
+                        <h:outputLabel styleClass="campovalordaparcela" for="valordaparcela" value="Valor da Parcela: "/> 
+                        <p:inputText maxlength="20" value="#{parcelaBean.parcela.valorparcela}" id="valordaparcela" converterMessage="No campo Valor Da Parcela preencha com valores Numéricos com 2 algarismos depois da Vírgula" converter="converter.MoneyConverter"/>  
+
+                    </h:panelGrid>
+                    <br/>
+                    <p:separator/>
+                    <center>
+                        <p:commandButton styleClass="btnSalvarAcao" value="Salvar" actionListener="#{parcelaBean.salvarParcela()}" update="@form, :formDataTableparcela, :formdialogDetalhesDivida, :formDataTabledivida" oncomplete="PF('dataTableParcela').filter()" title="Salvar" icon="ui-icon-disk"/>
+                    </center>
+
+                </h:form>
+            </p:dialog> 
+            <!--Fim Tela de Cadastro de Parcelas-->
+
+            <!--Tela que Mostra DataTable Parcelas-->
+            <p:dialog id="telaListadeParcelas" widgetVar="telaListadeParcelas" modal="true" styleClass="telaListadeParcelas" closeOnEscape="true" resizable="false" header="Dados do Parcelamento" width="1260">
+                <h:form id="formDataTableparcela" rendered="#{dividaBean.divida!=null}">
+                    <p:growl id="growl" sticky="true"/>
+                    <p:commandButton id="cmdb" update=":telaCadastroParcela" disabled="#{parcelaBean.desabilitarCriarParcela(dividaBean.divida)}" oncomplete="PF('telaCadastroParcela').show()" actionListener="#{parcelaBean.novoCadastroParcela(dividaBean.divida)}" value="Criar Parcela" icon="ui-icon-plusthick"/>
+                    <p:dataTable id="dataTableParcela" var="parcela" value="#{parcelaBean.listaTodasParcelasDivida(dividaBean.divida)}" 
+                                 emptyMessage="Não Há Registro de Parcelas!" paginator="true" resizableColumns="true" rows="6" widgetVar="dataTableParcela">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Parcelas desta Divida" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column headerText="Data a Pagar" width="160">
+                            <h:outputText value="#{parcela.dataapagar}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Data que Pagou" width="160">
+                            <h:outputText value="#{parcela.dataquepagou}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Valor da Parcela" width="180">
+                            <h:outputText value="#{parcela.valorparcela}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>           
+                        </p:column>
+
+                        <p:column headerText="Tipo de Pagamento" width="180">
+                            <h:outputText value="#{parcela.tipopagamento.nome}"/>
+                        </p:column>
+
+                        <p:column headerText="Pagar" width="70">
+                            <center>
+                                <p:commandButton update="@form,:telaInserirPagamento" disabled="#{parcelaBean.desabilitarPagamento(parcela)}" actionListener="#{parcelaBean.pagar(parcela)}" styleClass="btnAlterarDadosUsuario" title="Alterar" icon="ui-icon-suitcase" oncomplete="PF('telaInserirPagamento').show()" />
+                            </center>
+                        </p:column>
+
+                        <p:column headerText="Excluir" width="70">
+                            <center>
+                                <p:commandButton update="@form, :formdialogDetalhesDivida,:formDataTabledivida" styleClass="btnExcluirUsuario" title="Excluir" actionListener="#{parcelaBean.excluirParcela(parcela)}" icon="ui-icon-trash" oncomplete="PF('dataTableParcela').filter()"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                            </center>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                    </p:confirmDialog>
+                    <center>
+                        <h:link outcome="moduloAdvogado">Voltar</h:link>
+                    </center>
+
+                </h:form>
+
+            </p:dialog> 
+            <!--FIM Tela que Mostra DataTable Parcelas-->
+
+            <!--Tela Que exibe Detalhes da Dívida-->            
+            <p:dialog id="telaDetalhesDivida" widgetVar="telaDetalhesDivida" modal="true" styleClass="telaDetalhesAcao" closeOnEscape="true" resizable="false" header="Detalhes da Dívida da Ação Código = #{dividaBean.divida.acao.codacao}" width="960">
+
+                <h:form id="formdialogDetalhesDivida"  rendered="#{dividaBean.divida.coddivida!=null}" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+
+
+                    <p:fieldset styleClass="fieldAcao" legend="Dados da Ação">
+                        <h:panelGrid columns="2" styleClass="panelGridEsqDetalhesDivida">
+                            <h:outputLabel styleClass="numProcDetalhesAcao corDoDado" for="numProcDetalhesAcao" value="Número do Processo:"/> 
+                            <h:outputText id="numProcDetalhesAcao" value="#{dividaBean.divida.acao.numproc}"/>  
+
+                            <h:outputLabel styleClass="tipoacDetalhesAcao corDoDado" for="tipoacDetalhesAcao" value="Tipo da Ação:"/> 
+                            <h:outputText id="tipoacDetalhesAcao" value="#{dividaBean.divida.acao.tipoacao.nome}"/>
+
+                            
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2" styleClass="panelGridDirDetalhesDivida">
+                            
+                            <h:outputLabel styleClass="valoracDetalhesAcao corDoDado" for="valoracDetalhesAcao" value="Valor: R$"/> 
+                            <h:outputText id="valoracDetalhesAcao" value="#{dividaBean.divida.acao.valordaacao}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+                            
+                            <h:outputLabel styleClass="valorcombacDetalhesDivida corDoDado" for="valorcombacDetalhesDivida" value="Valor Combinado: R$"/> 
+                            <h:outputText id="valorcombacDetalhesDivida" value="#{dividaBean.divida.acao.valorcombinado}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+                        </h:panelGrid>
+
+                    </p:fieldset>
+
+                    <br/>
+
+                    <p:fieldset styleClass="fieldCliente" legend="Dados do Cliente">
+                        <h:panelGrid columns="6">
+                            <h:outputLabel styleClass="numrgDetalhesAcao corDoDado" for="numRgDetalhesAcao" value="RG:"/> 
+                            <h:outputText id="numRgDetalhesAcao" value="#{dividaBean.cliente.numrg}"/>
+
+                            <h:outputLabel styleClass="detalhesCliCpf corDoDado" rendered="#{dividaBean.cliente.fisjur==1}" for="cpfcliDetalhes" value="CPF:"/> 
+                            <h:outputText id="cpfcliDetalhes" rendered="#{dividaBean.cliente.fisjur==1}" value="#{dividaBean.cliente.numcpf}"/>
+
+                            <h:outputLabel styleClass="detalhesCliCnpj corDoDado" for="cnpjcliDetalhes" rendered="#{dividaBean.cliente.fisjur==2}" value="CNPJ:"/> 
+                            <h:outputText id="cnpjcliDetalhes" rendered="#{dividaBean.cliente.fisjur==2}" value="#{dividaBean.cliente.numcnpj}" />
+
+                            <h:outputLabel styleClass="nomeCliDetalhes corDoDado" for="nomeCliDetalhes" value="Nome:"/> 
+                            <h:outputText id="nomeCliDetalhes"  value="#{dividaBean.cliente.nome}"/>
+                        </h:panelGrid>
+                    </p:fieldset>    
+
+                    <br/>
+
+                    <p:fieldset styleClass="fieldDivida" legend="Dados da Dívida">
+                        <h:panelGrid columns="2">
+
+                            <h:outputLabel styleClass="datagerDetalhesDivida corDoDado" for="datagerDetalhesDivida" value="Data da Geração da Dívida:"/> 
+                            <h:outputText id="datagerDetalhesDivida" value="#{dividaBean.divida.datadageracao}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>  
+                            </h:outputText>
+
+                            <h:outputLabel styleClass="valortotalParceladoDetalhesDivida corDoDado" for="valortotalParceladoDetalhesDivida" value="Valor Total Parcelado: R$"/> 
+                            <h:outputText id="valortotalParceladoDetalhesDivida" value="#{parcelaBean.calcularValorTotalParcelado(dividaBean.divida)}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+
+                           
+
+                           
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2" styleClass="panleGriddirDadosDiv">
+                            
+                             <h:outputLabel styleClass="valorParcelasPagasDivida corDoDado" for="valorParcelasPagasDivida" value="Valor Pago Até o Momento: R$"/> 
+                            <h:outputText id="valorParcelasPagasDivida" value="#{parcelaBean.calcularValorParcelasPagas(dividaBean.divida)}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+
+                            <h:outputLabel styleClass="valordivDetalhesDivida corDoDado" for="valordivDetalhesDivida" value="Valor da Dívida: R$"/> 
+                            <h:outputText id="valordivDetalhesDivida" value="#{dividaBean.divida.valortotal}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+                        </h:panelGrid>
+                        
+                        <br/>
+                        
+                        <center>
+                            
+                             <p:commandButton styleClass="btninsdesp" title="Cadastrar Despesas" value="Adicionar Despesas" update=":teladtTableItensDivida" oncomplete="PF('teladtTableItensDivida').show();PF('dataTableDespesas').filter()" icon="ui-icon-plusthick"/>
+
+                        </center>
+                            
+                            
+                        
+                    </p:fieldset>
+                    <br/>
+
+                    <p:fieldset styleClass="fieldParcela" legend="Dados do Parcelamento">
+                          <center>
+                              <p:commandButton value="Ver Dados do Parcelamento" styleClass="btnVerDadosParcelamento" title="Ver Dados do Parcelamento" icon="ui-icon-search" update="@form, :telaListadeParcelas" oncomplete="PF('telaListadeParcelas').show(); PF('dataTableParcela').filter()"/>
+                         </center>
+                    </p:fieldset>
+
+
+                </h:form>
+
+            </p:dialog> 
+            <!--Fim Tela Que Exibe Detalhes da Dívida-->
+
+
+            <!--Formulário da tela Principal que lista todas as Dívidas-->
+            <h:form id="formDataTabledivida">
+                <p:growl id="growl" sticky="true"/>
+                <p:dataTable id="dataTableDivida" var="divida" value="#{dividaBean.listaTodasDividas()}" 
+                             emptyMessage="Não Há Registro de Dívidas!" paginator="true" resizableColumns="true" rows="6" widgetVar="dataTableDivida">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Dívidas Cadastradas" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column width="110"  filterBy="#{divida.acao.codacao}" headerText="Código Ação" filterMatchMode="startsWith">
+                        <h:outputText value="#{divida.acao.codacao}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{acaoBean.obterClienteListarNome(divida.acao).getNome()}" headerText="Cliente" filterMatchMode="startsWith">
+                        <h:outputText value="#{acaoBean.obterClienteListarNome(divida.acao).getNome()}" />
+                    </p:column>
+
+                    <p:column headerText="Excluir" width="80">
+                        <center>
+                            <p:commandButton styleClass="btnExcluirUsuario" update="@form" oncomplete="PF('dataTableDivida').filter()" disabled="#{dividaBean.desabilitarExcluirDivida(divida)}" actionListener="#{dividaBean.excluirDivida(divida)}" title="Excluir" icon="ui-icon-trash"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Ver Detalhes" width="110">
+                        <center>
+                            <p:commandButton styleClass="btnExcluirUsuario" update=":telaDetalhesDivida" oncomplete="PF('telaDetalhesDivida').show()" actionListener="#{dividaBean.verDetalhesDivida(divida)}" title="Mais Detalhes" icon="ui-icon-search"/>
+                        </center>
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                </p:confirmDialog>
+                <center>
+                    <h:link outcome="moduloAdvogado">Voltar</h:link>
+                </center>
+
+            </h:form>
+            <!--Fim Formulário Principal-->
+
+        </ui:define> 
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+    <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+    <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521/xe</property>
+    <property name="hibernate.connection.username">tcc</property>
+    <property name="hibernate.connection.password">tcc</property>
+    <property name="hibernate.show_sql">false</property>
+    <property name="hibernate.format_sql">false</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <mapping class="modelo.Administrador"/>
+    <mapping class="modelo.Usuario"/>
+    <mapping class="modelo.Pessoa"/>
+    <mapping class="modelo.Moraem"/>
+    <mapping class="modelo.Cidade"/>
+    <mapping class="modelo.Pasta"/>
+    <mapping class="modelo.PessoaAcao"/>
+    <mapping class="modelo.Acao"/>
+    <mapping class="modelo.TipoAcao"/>
+    <mapping class="modelo.Sentenca"/>
+    <mapping class="modelo.TipoSentenca"/>
+    <mapping class="modelo.Divida"/>
+    <mapping class="modelo.Parcela"/>
+    <mapping class="modelo.TipoPagamento"/>
+    <mapping class="modelo.HistoricoAcao"/>
+    <mapping class="modelo.ItensDivida"/>
+  </session-factory>
+</hibernate-configuration>

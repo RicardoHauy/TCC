@@ -1,0 +1,449 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="templates/template.xhtml">
+
+        <ui:define name="valorConteudo">
+
+            <!--TELA DE CADASTRO E ALTERAÇÃo DE PESSOAS -->
+            <p:dialog id="telainsercao" modal="true" closeOnEscape="true" visible="#{pessoaBean.pessoa!=null}" resizable="false" header="Pessoa" widgetVar="telaCadastro">
+
+                <h:form id="formdialog" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+
+
+                    <center>
+                        <h:outputText styleClass="tituloacao" value="Inserindo Pessoa" rendered="#{pessoaBean.pessoa.codpessoa==null}"/>
+
+                        <h:outputText styleClass="tituloacao" value="Alterando Pessoa" rendered="#{pessoaBean.pessoa.codpessoa!=null}"/>
+                    </center>
+
+                    <br/>
+                    <br/>
+
+                    <h:panelGrid columns="8">
+
+                        <p:selectOneRadio value="#{pessoaBean.pessoa.fisjur}">      
+                            <f:selectItem id="item1" itemValue="1" itemLabel="Pessoa Física" />
+                            <f:selectItem id="item2" itemValue="2" itemLabel="Pessoa Jurídica" />      
+                            <p:ajax update="panelGeral" event="change"/>    
+                        </p:selectOneRadio>      
+
+                        <p:outputPanel id="panelGeral">  
+                            <h:outputLabel styleClass="campocpfEspacoEsquerda campocpfEspacoDireita" rendered="#{pessoaBean.pessoa.fisjur==1}" for="cpf" value="CPF: "/> 
+                            <p:inputMask id="cpf" rendered="#{pessoaBean.pessoa.fisjur==1}" mask="999.999.999-99" value="#{pessoaBean.pessoa.numcpf}"/> 
+
+                            <h:outputLabel styleClass="campocnpjEspacoEsquerda campocnpjEspacoDireita" rendered="#{pessoaBean.pessoa.fisjur==2}" for="cnpj" value="CNPJ:"/> 
+                            <p:inputMask id="cnpj" rendered="#{pessoaBean.pessoa.fisjur==2}" mask="99.999.999/9999-99" value="#{pessoaBean.pessoa.numcnpj}"/>
+                        </p:outputPanel>
+
+
+                        <h:outputLabel styleClass="campoNomePessoa camponomeEspacoDireita" for="nomePessoa" value="Nome:"/> 
+                        <p:inputText id="nomePessoa" required="true" maxlength="59" requiredMessage="*Nome da Pessoa ou Instituição Obrigatório" value="#{pessoaBean.pessoa.nome}"/>
+
+                    </h:panelGrid>   
+
+
+                    <h:panelGrid columns="6">
+
+
+                        <h:outputLabel styleClass="campoCepEspacoEsquerda campocepEspacoDireita" for="cepPessoa" value="CEP:"/> 
+                        <p:inputMask mask="99.999-999" id="cepPessoa" required="true" requiredMessage="*Campo CEP Obrigatório" value="#{pessoaBean.pessoa.cep}"/>
+
+
+                        <h:outputLabel styleClass="campoBairroEspacoEsquerda campobairroEspacoDireita" for="bairroPessoa" value="Bairro:"/> 
+                        <p:inputText id="bairroPessoa" maxlength="59" required="true" requiredMessage="*Campo Bairro Obrigatório" value="#{pessoaBean.pessoa.bairro}"/>
+
+
+                        <h:outputLabel styleClass="campocomplementoEspacoEsquerda" for="complementoPessoa" value="Complemento:"/> 
+                        <p:inputText id="complementoPessoa" maxlength="20" value="#{pessoaBean.pessoa.complemento}"/>
+
+
+                    </h:panelGrid>   
+
+                    <h:panelGrid columns="6">
+
+                        <a href="http://www.buscacep.correios.com.br/servicos/dnec/menuAction.do?Metodo=menuLogradouroBairro" target="_blank"> esqueci meu CEP</a>
+
+                        <h:outputLabel styleClass="camponumcasaEspacoEsquerda" for="numcasaPessoa" value="Número:"/> 
+                        <p:inputText id="numcasaPessoa" maxlength="10" required="true" requiredMessage="*Campo Número Residência ou Estabelecimento Obrigatório" value="#{pessoaBean.pessoa.numcasa}"/>
+
+
+                        <h:outputLabel styleClass="camporgEspacoEsquerda camporgEspacoDireita" for="rgPessoa" value="RG:"/> 
+                        <p:inputMask mask="99.999.999-9" id="rgPessoa" value="#{pessoaBean.pessoa.numrg}"/>
+
+                    </h:panelGrid>       
+
+                    <h:panelGrid columns="6">
+
+                        <h:outputLabel for="telefonePessoa" value="Telefone:"/> 
+                        <p:inputMask mask="(99) 9999-9999" id="telefonePessoa" value="#{pessoaBean.pessoa.telefone}"/>
+
+                        <h:outputLabel styleClass="campocelularEspacoEsquerda campocelularEspacoDireita" for="celularPessoa" value="Celular:"/> 
+                        <p:inputMask mask="(99) 99999-9999" id="celularPessoa" value="#{pessoaBean.pessoa.celular}"/>
+
+                        <h:outputLabel styleClass="campocidadeEspacoEsquerda campocidadeEspacoDireita" for="cidadePessoa" value="Cidade:"/> 
+                        <p:inputText id="cidadePessoa" maxlength="59" value="#{pessoaBean.city.nomecidade}" requiredMessage="*Campo Cidade Obrigatório" required="true"/>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="6">
+
+                        <h:outputLabel styleClass="campoestadoEspacoEsquerda campoestadoEspacoDireita" for="estadoPessoa" value="Estado:"/> 
+                        <p:inputText id="estadoPessoa"  value="#{pessoaBean.city.estado}" maxlength="2" requiredMessage="*Campo Estado Obrigatório" required="true"/>
+
+                        <h:outputLabel styleClass="labelruaEspacoDireita labelruaEspacoEsquerda" for="ruaPessoa" value="Rua:"/> 
+                        <p:inputText id="ruaPessoa" maxlength="59" required="true" requiredMessage="*Campo Rua Obrigatório" value="#{pessoaBean.pessoa.rua}"/>
+
+                        <h:outputLabel styleClass="labelemailEspacoDireita labelemailEspacoEsquerda" for="emailPessoa" value="Email:"/> 
+                        <p:inputText id="emailPessoa" maxlength="50" value="#{pessoaBean.pessoa.email}"/>
+
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel for="observacaoPessoa" value="Observações:"/> 
+                        <p:inputTextarea id="observacaoPessoa" maxlength="800" autoResize="false" styleClass="observacoesTamanho"  value="#{pessoaBean.pessoa.observacoes}"/>
+
+                    </h:panelGrid>   
+                    <p:separator/>
+                    <center>
+                        <p:commandButton styleClass="btnSalvarCadAdministrador" icon="ui-icon-disk" value="Salvar" update="@form :formDataTable" oncomplete="PF('dtTablePessoas').filter()" actionListener="#{pessoaBean.salvarPessoa()}" />
+                    </center>
+                </h:form>
+            </p:dialog> 
+
+            <!--FIm Tela de Cadastro e Alteração de Pessoas-->
+
+
+            <!--Tela que mostra as Observações a partir do ver detalhes-->
+            <p:dialog id="telaObservacoes" modal="true"  closeOnEscape="true" resizable="false" header="Observações de #{pessoaBean.pessoa.nome}" widgetVar="telaObservacoes">
+                <h:form id="formdialogObservacoes" style='margin:10px;' rendered="#{pessoaBean.pessoa.codpessoa!=null}">
+                  <p:growl id="growl" sticky="true"/>
+                    <h:panelGrid columns="1">
+
+                        <p:inputTextarea id="observacaoPessoa" autoResize="false" readonly="true" styleClass="observacoesTamanhoDetalhes"  value="#{pessoaBean.pessoa.observacoes}"/>
+
+                    </h:panelGrid>   
+                </h:form>   
+            </p:dialog>            
+            <!--FIm Tela que mostra as observações-->
+
+
+            <!--Tela que lista todas as cidades do cliente-->
+            <p:dialog id="telaCidades" modal="true" closeOnEscape="true" resizable="false" header="Cidades de #{pessoaBean.pessoa.nome}" widgetVar="telaCidades">
+
+                <h:form id="formdialogCidades" rendered="#{pessoaBean.pessoa.codpessoa!=null}" style='margin:10px;'>
+               
+                    <p:growl id="growl" sticky="true"/>
+
+                    <p:dataTable id="dtTableCidades" styleClass="dataTableCidades" var="moraem" value="#{pessoaBean.buscarTodasCidades()}" 
+                                 emptyMessage="Não Há Registro de Cidades!" paginator="true" resizableColumns="true" rows="6" widgetVar="dtTableCidades">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Cidades de #{pessoaBean.pessoa.nome}" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column filterBy="#{moraem.cidade.nomecidade}" headerText="Cidade" filterMatchMode="startsWith">
+                            <h:outputText value="#{moraem.cidade.nomecidade}" />
+                        </p:column>
+
+                        <p:column  headerText="Estado">
+                            <h:outputText value="#{moraem.cidade.estado}" />
+                        </p:column>
+
+                        <p:column headerText="Excluir" width="80">
+                            <center>
+                                <p:commandButton update="@form, :formdialogDetalhes" styleClass="btnExcluirUsuario" title="Excluir" oncomplete="PF('dtTableCidades').filter(); #{pessoaBean.verDetalhes(pessoaBean.pessoa)}" actionListener="#{cidadeBean.excluirMoraemDaPessoa(pessoaBean.pessoa, moraem)}" icon="ui-icon-trash"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                            </center>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                    </p:confirmDialog>
+
+                </h:form>      
+
+            </p:dialog>
+            <!--FIm Tela que lista todas as cidades dos clientes-->
+
+
+            <!--Tela de Inserção de Pastas (Formulário) -->
+            <p:dialog id="telaCadastroPastas" modal="true"  closeOnEscape="true" resizable="false" header="Pastas de #{pessoaBean.pessoa.nome}" widgetVar="telaCadastroPastas">
+
+                <h:form id="formdialogCadastroPastas" rendered="#{pessoaBean.pessoa.codpessoa!=null}" style='margin:10px;'>
+
+                    <p:growl id="growl" sticky="true"/>
+
+                    <h:panelGrid columns="2">
+
+                        <p:outputLabel styleClass="numeroCadastroPastas" for="numeroCadastroPastas" value="Número da Pasta:"/> 
+                        <p:inputText id="numeroCadastroPastas" styleClass="camponumpastacad" required="true" requiredMessage="Campo Número da Pasta Obrigatório" maxlength="10" value="#{pastaBean.pasta.numeropasta}"/>
+
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+
+                        <p:outputLabel styleClass="numeroArmarioCadastroPastas" for="numeroArmarioCadastroPastas" value="Número do Armário:"/> 
+                        <p:inputText id="numeroArmarioCadastroPastas" required="true" requiredMessage="Campo Número do Armário Obrigatório" maxlength="10" value="#{pastaBean.pasta.idarmario}"/>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+
+                        <p:outputLabel styleClass="numeroGavetaCadastroPastas" for="numeroGavetaCadastroPastas" value="Número da Gaveta:"/> 
+                        <p:inputText id="numeroGavetaCadastroPastas" styleClass="camponumgavetacad" required="true" requiredMessage="Campo Número da Gaveta Obrigatório" maxlength="10" value="#{pastaBean.pasta.idgaveta}"/>
+
+                    </h:panelGrid>
+                    <p:separator/>
+                    <center>
+                        <p:commandButton update=":formdialogPastas" value="Salvar" oncomplete="PF('dtTablePastas').filter()" actionListener="#{pastaBean.salvarPasta()}" icon="ui-icon-disk"/>
+                    </center>
+                </h:form>   
+            </p:dialog>
+            <!--FIM Tela de Inserção de Pastas (Formulário) -->
+
+            <!--Tela que lista todas as  Pastas do cliente -->
+            <p:dialog id="telaPastas" modal="true"  closeOnEscape="true" resizable="false" header="Pastas de #{pessoaBean.pessoa.nome}" widgetVar="telaPastas">
+
+                <h:form id="formdialogPastas" rendered="#{pessoaBean.pessoa.codpessoa!=null}" style='margin:10px;'>
+                 
+                    <p:growl id="growl" sticky="true"/>
+
+                    <p:commandButton update=":telaCadastroPastas" oncomplete="PF('telaCadastroPastas').show()" actionListener="#{pastaBean.novoCadastroPasta()}" value="Adicionar Pasta" icon="ui-icon-plusthick"/>
+
+                    <p:dataTable id="dtTablePastas" styleClass="dataTablePastas" var="pasta" value="#{pastaBean.exibirPastas(pessoaBean.pessoa)}" 
+                                 emptyMessage="Não Há Registro de Pastas!" widgetVar="dtTablePastas" paginator="true" resizableColumns="true" rows="6">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Pastas de #{pessoaBean.pessoa.nome}" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column filterBy="#{pasta.numeropasta}" headerText="Numero Pasta" width="110" filterMatchMode="startsWith">
+                            <h:outputText value="#{pasta.numeropasta}" />
+                        </p:column>
+
+                        <p:column  headerText="ID Armário" width="100">
+                            <h:outputText value="#{pasta.idarmario}" />
+                        </p:column>
+
+                        <p:column  headerText="ID Gaveta" width="100">
+                            <h:outputText value="#{pasta.idgaveta}" />
+                        </p:column>
+
+                        <p:column headerText="Excluir" width="80">
+                            <center>
+                                <p:commandButton update="@form"  styleClass="btnExcluirUsuario" title="Excluir" oncomplete="PF('dtTablePastas').filter()" actionListener="#{pastaBean.excluirPastaDaPessoa(pasta)}" icon="ui-icon-trash"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                            </center>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                    </p:confirmDialog>
+
+
+                </h:form>   
+            </p:dialog>
+            <!-- FIM Tela que lista todas as Pastas do cliente -->
+
+            <!-- Tela que Lista as Ações de determinado Cliente a partir de ver detalhes -->
+            <p:dialog id="telaAcoes" styleClass="telaAcoes" modal="true"  closeOnEscape="true" resizable="false" header="Ações de #{pessoaBean.pessoa.nome}" widgetVar="telaAcoes">
+
+                <h:form id="formdialogAcoes" rendered="#{pessoaBean.pessoa.codpessoa!=null}" style='margin:10px;'>
+                 
+                    <p:growl id="growl" sticky="true"/>
+
+                    <p:commandButton value="Gerar Relatório de Ações" icon="ui-icon-script" actionListener="#{relatorioTodasAcoesBean.imprimirRelatorioAcoesPorCliente(pessoaBean.pessoa.codpessoa)}" ajax="false" onclick="this.form.target='_blank'" title="Gerar Relatório de Ações deste Cliente"/>
+                         
+                    <p:dataTable styleClass="dataTableAcoes" var="pessoaacao" value="#{pessoaBean.listarAcoesPessoa(pessoaBean.pessoa)}" 
+                                 emptyMessage="Não Há Registro de Ações!" widgetVar="dtTableAcoes" paginator="true" resizableColumns="true" rows="3">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Ações de #{pessoaBean.pessoa.nome}" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        
+                        <p:column filterBy="#{pessoaacao.acao.codacao}" headerText="Código da Ação" filterMatchMode="startsWith">
+                            <h:outputText value="#{pessoaacao.acao.codacao}" />
+                        </p:column>
+
+                        
+                        <p:column filterBy="#{pessoaacao.acao.numproc}" headerText="Numero Processo" filterMatchMode="startsWith">
+                            <h:outputText value="#{pessoaacao.acao.numproc}" />
+                        </p:column>
+
+                        <p:column headerText="Tipo Pessoa">
+                            <h:outputText rendered="#{pessoaacao.tipopessoa==1}" value="Cliente" />
+                            <h:outputText rendered="#{pessoaacao.tipopessoa==2}" value="Réu" />
+                            <h:outputText rendered="#{pessoaacao.tipopessoa==3}" value="Interessado" />
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:form>   
+            </p:dialog>
+            <!--    FIM Tela que Lista as Ações de determinado Cliente a partir de ver detalhes -->
+
+            <!--Tela que mostra todos os detalhes Cadastrados referentes a pessoa-->
+
+            <p:dialog id="telaDetalhes" widgetVar="telaDetalhes" modal="true" closeOnEscape="true" resizable="false" header="Detalhes de #{pessoaBean.pessoa.nome}">
+
+                <h:form id="formdialogDetalhes"  rendered="#{pessoaBean.pessoa.codpessoa!=null}" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+
+                    <h:panelGrid columns="4">
+
+                        <h:outputLabel styleClass="numrgDetalhes" for="numRgDetalhes" value="RG:"/> 
+                        <h:outputText id="numRgDetalhes"  value="#{pessoaBean.pessoa.numrg}"/>
+
+                        <h:outputLabel styleClass="telefoneDetalhes" for="telefoneDetalhes" value="Telefone:"/> 
+                        <h:outputText id="telefoneDetalhes"  value="#{pessoaBean.pessoa.telefone}"/>
+
+                    </h:panelGrid>   
+
+                    <h:panelGrid columns="4">
+                        <h:outputLabel styleClass="cepDetalhes" for="cepDetalhes" value="CEP:"/> 
+                        <h:outputText id="cepDetalhes"  value="#{pessoaBean.pessoa.cep}"/>
+
+                        <h:outputLabel styleClass="numcasaDetalhes" for="numcasaDetalhes" value="Número:"/> 
+                        <h:outputText id="numcasaDetalhes"  value="#{pessoaBean.pessoa.numcasa}"/>
+                    </h:panelGrid>   
+
+                    <h:panelGrid columns="4"> 
+                        <h:outputLabel styleClass="celularDetalhes" for="celularDetalhes" value="Celular:"/> 
+                        <h:outputText id="celularDetalhes"  value="#{pessoaBean.pessoa.celular}"/>
+
+                        <h:outputLabel styleClass="detalhesRua" for="detalhesRua" value="Rua:"/> 
+                        <h:outputText id="detalhesRua"  value="#{pessoaBean.pessoa.rua}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="4" id="pgCidade">
+                        <h:outputLabel styleClass="estadoDetalhes" for="estadoDetalhes" value="Estado:"/> 
+                        <h:outputText id="estadoDetalhes"  value="#{pessoaBean.city.estado}"/>
+
+                        <h:outputLabel styleClass="cidadeDetalhes" for="cidadeDetalhes" value="Cidade:"/> 
+                        <h:outputText id="cidadeDetalhes" value="#{pessoaBean.city.nomecidade}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+                        <h:outputLabel styleClass="detalhesCpf" rendered="#{pessoaBean.pessoa.fisjur==1}" for="cpfPessoaDetalhes" value="CPF:"/> 
+                        <h:outputText id="cpfPessoaDetalhes" rendered="#{pessoaBean.pessoa.fisjur==1}" value="#{pessoaBean.pessoa.numcpf}" />
+
+                        <h:outputLabel styleClass="detalhesCnpj" for="cnpjPessoaDetalhes" rendered="#{pessoaBean.pessoa.fisjur==2}" value="CNPJ:"/> 
+                        <h:outputText id="cnpjPessoaDetalhes" rendered="#{pessoaBean.pessoa.fisjur==2}" value="#{pessoaBean.pessoa.numcnpj}" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+                        <h:outputLabel styleClass="detalhesEmailEspacoEsquerda detalhesEmailEspacoDireita" for="emailPessoaDetalhes" value="Email:"/> 
+                        <h:outputText id="emailPessoaDetalhes"  value="#{pessoaBean.pessoa.email}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+                        <h:outputLabel styleClass="bairroDetalhes" for="bairroDetalhes" value="Bairro:"/> 
+                        <h:outputText id="bairroDetalhes"  value="#{pessoaBean.pessoa.bairro}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+                        <h:outputLabel styleClass="complementoDetalhes" for="complementoDetalhes" value="Complemento:"/> 
+                        <h:outputText id="complementoDetalhes"  value="#{pessoaBean.pessoa.complemento}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+                        <h:outputLabel styleClass="advogadocadastrouDetalhes" for="advogadocadastrouDetalhes" value="Cadastrado Por:"/> 
+                        <h:outputText id="advogadocadastrouDetalhes"  value="#{pessoaBean.pessoa.usuario.nome}"/>
+                    </h:panelGrid>
+                    <br/>
+                    <h:panelGrid columns="2">
+                        <p:commandButton id="observacaoDetalhes" value="Observações" update=":telaObservacoes" styleClass="btnObservacoesPessoa" title="Ver Observações" icon="ui-icon-clipboard" oncomplete="PF('telaObservacoes').show()" />
+                        <p:commandButton id="pastasDetalhes" value="Pastas" update=":telaPastas, :formdialogPastas" styleClass="btnPastasPessoa" title="Ver Pastas" icon="ui-icon-folder-open" oncomplete="PF('telaPastas').show(); PF('dtTablePastas').filter()"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+                        <p:commandButton id="cidadesDetalhes" value="Cidades" update=":telaCidades, :formdialogCidades" styleClass="btnCidadesPessoa" title="Lista de Cidades" icon="ui-icon-home" oncomplete="PF('telaCidades').show(); PF('dtTableCidades').filter()" />
+                        <p:commandButton id="acoesDetalhes" value="Minhas Ações" update=":telaAcoes" styleClass="btnAcoesPessoa" title="Ver Ações" icon="ui-icon-document" oncomplete="PF('telaAcoes').show()" />
+                    </h:panelGrid>
+
+                </h:form>
+
+            </p:dialog> 
+            <!--FIM Tela que mostra todos os detalhes Cadastrados referentes a pessoa-->
+<br/>
+
+            <!--FOrmulário da tela principal referente a pessoas-->
+            <h:form id="formDataTable">
+                
+                <p:growl id="growl" sticky="true"/>
+                <p:commandButton update=":telainsercao" oncomplete="PF('telaCadastro').show()" actionListener="#{pessoaBean.novoCadastro()}" value="Inserir Pessoa" icon="ui-icon-plusthick"/>
+                <p:dataTable id="dttable" widgetVar="dtTablePessoas" var="pessoa" value="#{pessoaBean.buscaTodasPessoas()}" 
+                             emptyMessage="Não Há Registro de Pessoas!" paginator="true" rows="5" resizableColumns="true">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Pessoas Cadastradas" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column  filterBy="#{pessoa.nome}" filterMatchMode="startsWith" headerText="Pesquisar Por Nome">
+
+                        <h:outputText value="#{pessoa.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Alterar" width="80">
+                        <center>
+                            <p:commandButton update=":telainsercao" styleClass="btnAlterarDadosUsuario" title="Alterar" icon="ui-icon-pencil" actionListener="#{pessoaBean.alterarPessoa(pessoa)}" oncomplete="PF('telaCadastro').show()" />
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Excluir" width="80">
+                        <center>
+                            <p:commandButton update="@form" styleClass="btnExcluirUsuario" disabled="#{pessoaBean.desabilitarExcluir(pessoa)==true}" title="Excluir" oncomplete="PF('dtTablePessoas').filter()" actionListener="#{pessoaBean.excluirPessoa(pessoa)}" icon="ui-icon-trash"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Ver Detalhes" width="110">
+                        <center>
+                            <p:commandButton update=":telaDetalhes" styleClass="btnExcluirUsuario" title="Mais Detalhes" actionListener="#{pessoaBean.verDetalhes(pessoa)}" oncomplete="PF('telaDetalhes').show()" icon="ui-icon-search"/>
+                        </center>
+                    </p:column>
+
+                </p:dataTable>
+
+                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                </p:confirmDialog>
+               
+                <center>
+                    <h:link outcome="moduloAdvogado">Voltar</h:link>
+                </center>
+                
+            </h:form>
+            
+           
+            
+            <!--FIM FOrmulário da tela principal referente a pessoas-->
+
+        </ui:define> 
+
+    </ui:composition>
+</html>
+

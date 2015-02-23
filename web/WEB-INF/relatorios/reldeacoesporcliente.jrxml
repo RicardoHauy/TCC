@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reldeacoesporcliente" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ac9ee1c6-883b-4a4d-a3ba-1e1eeaead03d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="47"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="codigocliente" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\RicardoHauy\\Documents\\NetBeansProjects\\TCCJSF\\web\\WEB-INF\\relatorios\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select pes.nome as nomecli, ac.codacao, ac.numproc, ac.datadist, ac.dataaentrar, ac.dataproxalteracaoacao, ac.valordaacao, ac.valorcombinado, ac.descricao as descacao, ac.observacoes as obsacao, tpac.nome as tipoacao from pessoa pes, pessoaacao pa, acao ac, tipoacao tpac where pes.codpessoa=pa.codpessoa and pa.codacao=ac.codacao and ac.codtipoacao=tpac.codigo and pa.tipopessoa=1 and pes.codpessoa=$P{codigocliente} order by pes.nome]]>
+	</queryString>
+	<field name="NOMECLI" class="java.lang.String"/>
+	<field name="CODACAO" class="java.math.BigDecimal"/>
+	<field name="NUMPROC" class="java.lang.String"/>
+	<field name="DATADIST" class="java.sql.Timestamp"/>
+	<field name="DATAAENTRAR" class="java.sql.Timestamp"/>
+	<field name="DATAPROXALTERACAOACAO" class="java.sql.Timestamp"/>
+	<field name="VALORDAACAO" class="java.lang.Double"/>
+	<field name="VALORCOMBINADO" class="java.lang.Double"/>
+	<field name="DESCACAO" class="java.lang.String"/>
+	<field name="OBSACAO" class="java.lang.String"/>
+	<field name="TIPOACAO" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/15)]]></groupExpression>
+		<groupHeader>
+			<band/>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
+		<groupHeader>
+			<band/>
+			<band height="35">
+				<frame>
+					<reportElement mode="Opaque" x="1" y="0" width="555" height="34" forecolor="#CCCCFF" backcolor="#C9A660" uuid="465fd5d3-8b51-44da-88a9-b12ba06db909"/>
+					<textField>
+						<reportElement x="10" y="10" width="100" height="20" forecolor="#FFFFFF" uuid="4bf3f1ca-7326-40a6-b06a-99c297f00a27"/>
+						<textElement>
+							<font size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{NOMECLI}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="143" splitType="Stretch">
+			<image>
+				<reportElement x="10" y="20" width="148" height="97" uuid="a586c132-f1fa-4b0d-a788-116da50ec758"/>
+				<imageExpression><![CDATA["C:\\Users\\Cleber\\Desktop\\TCCJSF\\web\\WEB-INF\\relatorios\\logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="SubTitle" x="160" y="61" width="214" height="22" forecolor="#C9A660" uuid="4d92f9f4-4862-42c8-b44f-4587a79473e1"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Escritório João Alberto Hauy]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="161" y="85" width="383" height="42" uuid="36354b18-3475-4c68-a755-c7fc06c5142a"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[João Alberto Hauy & Renata Aparecida Hauy Advogados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Title" x="158" y="10" width="385" height="62" forecolor="#000000" uuid="cbc710d7-5a6a-4ade-9601-e56b0d4bf31f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Relatório de Ações por Cliente]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="591" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" mode="Opaque" x="130" y="144" width="144" height="20" backcolor="#EADCC0" uuid="14997c5b-30fd-4b36-85e8-7e6ddf8e4616"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CODACAO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Opaque" x="130" y="170" width="144" height="20" backcolor="#EADCC0" uuid="32e3e730-7698-42e1-8296-dfa50d3f0aff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NUMPROC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="9" y="144" width="121" height="20" backcolor="#B7A580" uuid="f7c601e7-7799-4558-a86d-a5d32411da0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código da Ação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="9" y="170" width="121" height="20" backcolor="#B7A580" uuid="50c4a5bf-2b48-4775-90e4-a994f3ef2912"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número do Processo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="8" y="196" width="122" height="20" backcolor="#B7A580" uuid="650af035-c61a-48b7-a431-1dfc3249ae0d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data da Distribuição]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Opaque" x="130" y="196" width="144" height="20" backcolor="#EADCC0" uuid="313a687e-7464-42c3-9f29-50963898a046"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATADIST}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Opaque" x="129" y="222" width="145" height="20" backcolor="#EADCC0" uuid="91650b75-5dd1-435a-86e2-3ce81266b7c0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATAAENTRAR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="8" y="222" width="122" height="20" backcolor="#B7A580" uuid="ccb421ec-107d-4a37-8051-4966f89bbfca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data a Dar Entrada]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Opaque" x="403" y="222" width="144" height="20" backcolor="#EADCC0" uuid="dc1c7aaa-bf56-4a7c-9471-2ac04d8225cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATAPROXALTERACAOACAO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="282" y="222" width="121" height="20" backcolor="#B7A580" uuid="5e5f14da-ebfc-4f39-aa28-85c03293bd04"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Próxima Alteração]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" mode="Opaque" x="403" y="144" width="144" height="20" backcolor="#EADCC0" uuid="858c9ec1-f9d6-4d7e-baf3-585c6fcdc52b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TIPOACAO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="281" y="144" width="122" height="20" backcolor="#B7A580" uuid="410bc5d2-a146-4bb7-8708-634ed87f6356"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Ação]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" mode="Opaque" x="130" y="44" width="417" height="95" backcolor="#EADCC0" uuid="5b700e32-5761-4e20-bb2c-da518f9d0f77"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DESCACAO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="9" y="44" width="121" height="95" backcolor="#B7A580" uuid="2bc2c533-8983-478d-8e4a-fdcced7c53ca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição da Ação]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement positionType="Float" mode="Opaque" x="403" y="170" width="144" height="20" backcolor="#EADCC0" uuid="e452736d-9906-4f97-942e-e59d5f95ebcf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALORDAACAO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="281" y="170" width="122" height="20" backcolor="#B7A580" uuid="1d410425-ca84-4177-8e4a-b3826d7c65c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor da Ação]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement positionType="Float" mode="Opaque" x="403" y="196" width="144" height="20" backcolor="#EADCC0" uuid="7ee3535b-1ce3-48ee-abbc-2c0528ac2fbc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALORCOMBINADO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="281" y="196" width="122" height="20" backcolor="#B7A580" uuid="bd10cd42-aa9a-4f27-b57c-d3616e609d50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ValorCombinado]]></text>
+			</staticText>
+			<subreport>
+				<reportElement positionType="Float" x="9" y="552" width="537" height="25" uuid="cefa6a6c-b2ff-4617-bab1-0dd4ac290368"/>
+				<subreportParameter name="codac">
+					<subreportParameterExpression><![CDATA[$F{CODACAO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codcli">
+					<subreportParameterExpression><![CDATA[$P{codigocliente}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reldeacoesporcliente_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<rectangle>
+				<reportElement positionType="Float" x="8" y="582" width="540" height="7" forecolor="#CCCCFF" backcolor="#C9A660" uuid="44c123cd-661e-4cd2-a1b4-3be16ea28328"/>
+			</rectangle>
+			<frame>
+				<reportElement positionType="Float" mode="Opaque" x="9" y="6" width="538" height="32" backcolor="#846A37" uuid="b9a3ca26-9f57-4975-9585-85232ee85f34"/>
+				<staticText>
+					<reportElement mode="Transparent" x="211" y="4" width="114" height="20" forecolor="#FFFFFF" backcolor="#846A37" uuid="884f5c5b-3edc-4b62-9937-36c3d390c5b1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dados da Ação]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" mode="Opaque" x="8" y="515" width="538" height="32" backcolor="#846A37" uuid="35bad7db-b0c2-4f55-91d8-0a87c6dc42fb"/>
+				<staticText>
+					<reportElement positionType="Float" mode="Transparent" x="190" y="7" width="155" height="20" forecolor="#FFFFFF" backcolor="#846A37" uuid="743a5ca2-f2a5-4faf-b37c-a98674624945"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dados das Sentenças]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" mode="Opaque" x="8" y="310" width="538" height="32" backcolor="#846A37" uuid="9439a60e-f45d-42df-beb4-5ad66eb87afd"/>
+				<staticText>
+					<reportElement positionType="Float" mode="Transparent" x="190" y="6" width="155" height="20" forecolor="#FFFFFF" backcolor="#846A37" uuid="c1cede5c-92d1-4240-96eb-1f96e12dc402"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dados da Dívida]]></text>
+				</staticText>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="8" y="346" width="538" height="26" uuid="c352dac4-41ca-4dbd-908c-83eda46ad579"/>
+				<subreportParameter name="codac">
+					<subreportParameterExpression><![CDATA[$F{CODACAO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reldeacoesporcliente_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+			<frame>
+				<reportElement positionType="Float" mode="Opaque" x="8" y="446" width="538" height="32" backcolor="#846A37" uuid="06217666-2938-4ef0-90f3-30ed105076b3"/>
+				<staticText>
+					<reportElement positionType="Float" mode="Transparent" x="179" y="6" width="176" height="20" forecolor="#FFFFFF" backcolor="#846A37" uuid="68236707-ed67-4579-9ee1-92f5b0ddf89e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dados do Parcelamento]]></text>
+				</staticText>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="8" y="483" width="538" height="27" uuid="eac13975-2cc3-45be-a252-a7ba5b055850"/>
+				<subreportParameter name="codac">
+					<subreportParameterExpression><![CDATA[$F{CODACAO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reldeacoesporcliente_subreport3.jasper"]]></subreportExpression>
+			</subreport>
+			<frame>
+				<reportElement positionType="Float" mode="Opaque" x="8" y="377" width="538" height="32" backcolor="#846A37" uuid="5dde84e1-50da-4596-bc3d-4707c893e5ae"/>
+				<staticText>
+					<reportElement positionType="Float" mode="Transparent" x="169" y="5" width="186" height="20" forecolor="#FFFFFF" backcolor="#846A37" uuid="ba6dba41-0fb4-46c6-a758-575b2070f5d9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Itens Adicionais à Dívida]]></text>
+				</staticText>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="8" y="414" width="538" height="27" uuid="f0b05017-6619-4425-9ee0-306677c45986"/>
+				<subreportParameter name="codac">
+					<subreportParameterExpression><![CDATA[$F{CODACAO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reldeacoesporcliente_subreport4.jasper"]]></subreportExpression>
+			</subreport>
+			<frame>
+				<reportElement positionType="Float" mode="Opaque" x="8" y="248" width="538" height="32" backcolor="#846A37" uuid="8d892805-1083-4676-a764-bdd4d014f3b3"/>
+				<staticText>
+					<reportElement positionType="Float" mode="Transparent" x="179" y="6" width="176" height="20" forecolor="#FFFFFF" backcolor="#846A37" uuid="f3c307c6-8872-4c94-95c9-725dd35dece1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Andamento do Processo]]></text>
+				</staticText>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="8" y="284" width="538" height="20" uuid="389de5db-cadb-41ca-aaa0-9a312dbab152"/>
+				<subreportParameter name="codac">
+					<subreportParameterExpression><![CDATA[$F{CODACAO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reldeacoesporcliente_subreport5.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="ad17f9c5-3969-42eb-b72d-df55068a8367"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="932a33a8-1314-40a8-b01e-439cd672fa7a"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="451" y="0" width="82" height="20" forecolor="#736343" uuid="e137f37d-bdc1-44e0-a741-ecf0567ad9ed"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="48f51566-9dbd-4f66-81c6-bf44e00a1c38"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

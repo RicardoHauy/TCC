@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relproximasalteracoesacao" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="54728aee-0110-41f8-aeeb-80c0777c757a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[select pes.nome, ac.numproc, ac.dataproxalteracaoacao, ac.descricao as descacao, ac.dataaentrar, hist.datahist, ac.valordaacao, hist.descricao as descricaohistorico from pessoa pes, pessoaacao pa, acao ac, historicoacao hist where pes.codpessoa=pa.codpessoa and pa.codacao=ac.codacao and pa.tipopessoa=1 and ac.codacao=hist.codacao and datahist>=sysdate-1 order by hist.datahist asc]]>
+	</queryString>
+	<field name="NOME" class="java.lang.String"/>
+	<field name="NUMPROC" class="java.lang.String"/>
+	<field name="DATAPROXALTERACAOACAO" class="java.sql.Timestamp"/>
+	<field name="DESCACAO" class="java.lang.String"/>
+	<field name="DATAAENTRAR" class="java.sql.Timestamp"/>
+	<field name="DATAHIST" class="java.sql.Timestamp"/>
+	<field name="VALORDAACAO" class="java.lang.Double"/>
+	<field name="DESCRICAOHISTORICO" class="java.lang.String"/>
+	<group name="Grupo 1">
+		<groupExpression><![CDATA[$F{NOME}]]></groupExpression>
+		<groupHeader>
+			<band height="224">
+				<staticText>
+					<reportElement mode="Opaque" x="7" y="69" width="122" height="83" backcolor="#B7A580" uuid="192cde5f-c98c-497f-a7b9-f7492c7b2acf"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Descrição Ação]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="129" y="21" width="416" height="20" backcolor="#EADCC0" uuid="89e82092-e6f0-4c93-aae3-d4fd105ee757"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="8" y="21" width="122" height="20" backcolor="#B7A580" uuid="5393cb62-7517-489c-bfac-e5649a023655"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cliente]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="129" y="45" width="144" height="20" backcolor="#EADCC0" uuid="19b4a056-59f9-4e34-bf05-28f406e90678"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{NUMPROC}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="279" y="45" width="122" height="20" backcolor="#B7A580" uuid="dc322f58-d14a-4c4e-b290-51bcbf1a8f5b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor da Ação]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="129" y="69" width="416" height="83" backcolor="#EADCC0" uuid="e5eb3c95-664c-424d-8bcd-ce572a2698e7"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{DESCACAO}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement mode="Opaque" x="401" y="45" width="144" height="20" backcolor="#EADCC0" uuid="cfccfae6-e071-428d-a58e-de1c906bdcfa"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{VALORDAACAO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="8" y="45" width="122" height="20" backcolor="#B7A580" uuid="6001d5e0-d86c-4d99-a80b-4378a68650c6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Número do Processo]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement mode="Opaque" x="129" y="156" width="144" height="20" backcolor="#EADCC0" uuid="ea2c46a1-9853-4a84-8b0f-4833cddcc16f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{DATAPROXALTERACAOACAO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="7" y="156" width="122" height="20" backcolor="#B7A580" uuid="0f13ea2f-0335-4cf0-a455-38b6068f78c8"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Próxima Alteração]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement mode="Opaque" x="401" y="156" width="144" height="20" backcolor="#EADCC0" uuid="c1d54418-7775-4ce6-87c3-52820298fd31"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{DATAAENTRAR}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="279" y="156" width="122" height="20" backcolor="#B7A580" uuid="ccd9ae08-e4ac-45c9-adbf-dc896461d6fc"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data a Entrar Inicial]]></text>
+				</staticText>
+				<frame>
+					<reportElement mode="Opaque" x="0" y="10" width="555" height="6" forecolor="#CCCCFF" backcolor="#C9A660" uuid="7a79197b-e24d-477d-805c-ab0d3dda17e1"/>
+				</frame>
+				<line>
+					<reportElement x="8" y="179" width="536" height="2" uuid="6780b911-c18f-4bae-a5e3-e1a85e2fa03e"/>
+				</line>
+				<frame>
+					<reportElement mode="Opaque" x="7" y="189" width="539" height="34" forecolor="#CCCCFF" backcolor="#846A37" uuid="6ab36d39-3faa-4d19-9c22-05b95b81e4a1"/>
+					<staticText>
+						<reportElement x="186" y="7" width="170" height="20" forecolor="#FFFFFF" uuid="56f224bf-bf39-4098-8ad7-830aa5b65862"/>
+						<textElement textAlignment="Center">
+							<font size="14" isBold="true"/>
+						</textElement>
+						<text><![CDATA[Ocorrências]]></text>
+					</staticText>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="185" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="161" y="10" width="385" height="62" forecolor="#000000" uuid="3d884522-1cf0-4ddf-8196-6014eeb9140c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="22" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Relatório de Próximas Ocorrências das Ações]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="161" y="92" width="383" height="42" uuid="bf7e4e4e-fc00-4644-9fbc-cd66b8de3d93"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[João Alberto Hauy & Renata Aparecida Hauy Advogados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="161" y="69" width="214" height="22" forecolor="#C9A660" uuid="b06c87ee-4be7-41d3-a085-baec2cbe82be"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Escritório João Alberto Hauy]]></text>
+			</staticText>
+			<image>
+				<reportElement x="10" y="21" width="148" height="97" uuid="7fc43a7b-5938-442d-af86-c611a8c511d3"/>
+				<imageExpression><![CDATA["C:\\Users\\Cleber\\Desktop\\TCCJSF\\web\\WEB-INF\\relatorios\\logo.png"]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement mode="Opaque" x="1" y="151" width="555" height="34" forecolor="#CCCCFF" backcolor="#C9A660" uuid="34a5c7a3-5dea-4e33-a156-d2faacde55b9"/>
+				<staticText>
+					<reportElement x="183" y="7" width="170" height="20" forecolor="#FFFFFF" uuid="bcac0b97-759b-4cf9-b6a3-5345850fb6ab"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Próximas Ocorrências]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="113" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="8" y="90" width="122" height="20" backcolor="#B7A580" uuid="ca08581e-c5db-4cd5-828a-f6a42cd1addb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Ocorrência]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="8" y="3" width="122" height="83" backcolor="#B7A580" uuid="84872477-8ffa-49ab-866b-bff797cd1363"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição Ocorrência]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="130" y="3" width="416" height="83" backcolor="#EADCC0" uuid="32d822a2-458e-4344-8b81-ba66d805c76a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DESCRICAOHISTORICO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Opaque" x="130" y="90" width="144" height="20" backcolor="#EADCC0" uuid="b9ce4639-0fef-4c2c-85ec-83c4db673850"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATAHIST}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="d732a343-7310-4e92-a12f-5e6b5d29de50"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="25e8bef5-d5be-484a-be73-ab468ee91f35"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="396" y="0" width="137" height="20" forecolor="#736343" uuid="b8d5c8f5-f905-435c-b4a1-031e83282de7"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="93b2432e-e4fe-4d08-b13e-aeb070da2ac1"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

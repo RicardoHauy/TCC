@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="templates/template.xhtml">
+
+        <ui:define name="valorConteudo">
+
+            <br/>
+
+            <p:dialog id="telaCadastroTipoPagamento"  modal="true" closeOnEscape="true" onHide="#{tipoPagamentoBean.novoCadastroTipoPagamento()}" resizable="false" header="Tipo de Pagamento" widgetVar="telaCadastroTipoPagamento">
+
+                <h:form id="formdialogcadastrotipopagamento" prependId="false" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+                   
+                    <center>
+                        <h:outputText styleClass="tituloacao" value="Inserindo Tipo" rendered="#{tipoPagamentoBean.tipoPagamento.codigo==null}"/>
+
+                        <h:outputText styleClass="tituloacao" value="Alterando Tipo" rendered="#{tipoPagamentoBean.tipoPagamento.codigo!=null}"/>
+                    </center>
+
+                    <br/>
+                    <br/>
+
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel styleClass="camponometipo" for="nometipopag" value="Nome do Tipo: "/> 
+                        <p:inputText id="nometipopag" required="true" requiredMessage="Campo Nome do Tipo Obrigatório!" styleClass="txtnometipo" value="#{tipoPagamentoBean.tipoPagamento.nome}"/> 
+
+                    </h:panelGrid>
+<br/>
+                    <p:separator/>
+                    <center>
+                        <p:commandButton styleClass="btnSalvarAcao" value="Salvar" actionListener="#{tipoPagamentoBean.salvarTipoPagamento()}" update="@form, :formDataTableTipopagamento" oncomplete="PF('dataTableTipoPagamento').filter()" title="Salvar Tipo" icon="ui-icon-disk"/>
+                    </center>
+
+                </h:form>
+            </p:dialog> 
+
+
+            <h:form id="formDataTableTipopagamento">
+                <p:growl id="growl" sticky="true"/>
+                <p:commandButton update=":formdialogcadastrotipopagamento" oncomplete="PF('telaCadastroTipoPagamento').show()" actionListener="#{tipoPagamentoBean.novoCadastroTipoPagamento()}" value="Inserir Novo Tipo" icon="ui-icon-plusthick"/>
+                <p:dataTable id="dataTableTipoPagamento" widgetVar="dataTableTipoPagamento" var="tipo" value="#{tipoPagamentoBean.listaTodosTipos()}" 
+                             emptyMessage="Não Há Registro de Tipos!" paginator="true" resizableColumns="true" rows="5">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Tipos de Pagamento Cadastrados" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column width="110"  filterBy="#{tipo.codigo}" headerText="Código Tipo" filterMatchMode="startsWith">
+
+                        <h:outputText value="#{tipo.codigo}" />
+                    </p:column>
+
+                    <p:column filterBy="#{tipo.nome}" headerText="Tipo" filterMatchMode="startsWith">
+                        <h:outputText value="#{tipo.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Alterar" width="80">
+                        <center>
+                            <p:commandButton update=":formdialogcadastrotipopagamento" styleClass="btnAlterarDadosUsuario" title="Alterar" icon="ui-icon-pencil" actionListener="#{tipoPagamentoBean.alterarTipo(tipo)}" oncomplete="PF('telaCadastroTipoPagamento').show()"/>
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Excluir" width="80">
+                        <center>
+                            <p:commandButton update="@form" styleClass="btnExcluirUsuario" disabled="#{tipoPagamentoBean.desabilitarExcluir(tipo)}" oncomplete="PF('dataTableTipoPagamento').filter()" title="Excluir" actionListener="#{tipoPagamentoBean.excluirTipo(tipo)}" icon="ui-icon-trash"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                        </center>
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                </p:confirmDialog>
+                <center>
+                    <h:link outcome="moduloAdvogado">Voltar</h:link>
+                </center>
+
+            </h:form>
+
+        </ui:define> 
+
+    </ui:composition>
+
+</html>

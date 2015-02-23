@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="templates/template.xhtml">
+
+        <ui:define name="valorConteudo">
+
+            <br/>
+            
+            <!--Tela que Exibe Detalhes da Sentença-->
+             <p:dialog id="telaDetalhesSentenca" widgetVar="telaDetalhesSentenca" modal="true" styleClass="telaDetalhesSentenca" closeOnEscape="true" resizable="false" header="Detalhes da Sentença da Ação Código = #{sentencaBean.sentenca.acao.codacao}" width="520">
+
+                 <h:form id="formdialogDetalhesSentenca"  rendered="#{sentencaBean.sentenca.codsentenca!=null}" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+
+
+                    <p:fieldset styleClass="fieldAcao" legend="Dados da Ação">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel styleClass="numProcDetalhesSentenca corDoDado" for="numProcDetalhesSentenca" value="Número do Processo:"/> 
+                            <h:outputText id="numProcDetalhesSentenca" value="#{sentencaBean.sentenca.acao.numproc}"/>
+                       </h:panelGrid>
+                        
+                        <h:panelGrid columns="2">
+                            <h:outputLabel styleClass="nomeCliDetalhesSentenca corDoDado" for="nomeCliDetalhesSentenca" value="Cliente:"/> 
+                            <h:outputText id="nomeCliDetalhesSentenca"  value="#{sentencaBean.obterClienteAcao(sentencaBean.sentenca).getNome()}"/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2">
+                            <h:outputLabel styleClass="nomereuDetalhesSentenca corDoDado" for="nomereuDetalhesSentenca" value="Réu:"/> 
+                            <h:outputText id="nomereuDetalhesSentenca"  value="#{sentencaBean.obterReuAcao(sentencaBean.sentenca).getNome()}"/>
+                        </h:panelGrid>
+                    </p:fieldset>
+
+                    <br/>
+
+                    <p:fieldset styleClass="fieldSentenca" legend="Dados da Sentença">
+                        <h:panelGrid columns="1">
+                            <h:outputLabel styleClass="DescrSentDetalhes corDoDado" for="DescrSentDetalhes" value="Descrição da Sentença:"/> 
+                            <p:inputTextarea id="DescrSentDetalhes" cols="39" rows="8" autoResize="false" readonly="true" styleClass="DescrSentTamanhoDetalhes"  value="#{sentencaBean.sentenca.descricao}"/>
+                        </h:panelGrid>    
+                    </p:fieldset>    
+
+             
+                </h:form>
+
+            </p:dialog> 
+            <!--Fim Tela que Exibe Detalhes da Sentenca-->
+            
+            <!--Tela de Cadastro de Sentencas-->
+            <p:dialog id="telaCadastroSentenca"  modal="true" closeOnEscape="true" resizable="false" header="Sentença" widgetVar="telaCadastroSentenca" width="800">
+
+                <h:form id="formdialogcadastrosentenca" rendered="#{sentencaBean.sentenca!=null}" prependId="false" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+                    <center>
+                        <h:outputText styleClass="tituloacao" value="Inserindo Sentença" rendered="#{sentencaBean.sentenca.codsentenca==null}"/>
+
+                        <h:outputText styleClass="tituloacao" value="Alterando Sentença" rendered="#{sentencaBean.sentenca.codsentenca!=null}"/>
+                    </center>
+
+                    <br/>
+                    <br/>
+
+                    <h:panelGrid columns="1">
+
+                        <p:selectOneMenu styleClass="escolhaAcao" value="#{sentencaBean.sentenca.acao}"  
+                                         height="250"
+                                         effect="fade" var="p" required="true" requiredMessage="Escolha da Ação Obrgatória">  
+
+                            <f:selectItem itemLabel="Selecione a Ação" itemValue="#{null}" />  
+
+                            <f:selectItems value="#{sentencaBean.listadetodasacoes}"  
+                                           var="acao" itemLabel="#{acao.numproc}"  
+                                           itemValue="#{acao}"/>  
+
+                            <p:column>  
+                                #{p.numproc} 
+                            </p:column>  
+
+                        </p:selectOneMenu> 
+
+                    </h:panelGrid>   
+
+                    <h:panelGrid>
+
+                        <p:selectOneMenu id="slctMenuTipoSentenca" styleClass="tamanhoslctTipoSentenca" value="#{sentencaBean.sentenca.tiposentenca}"  
+                                         height="250"
+                                         effect="fade" var="r" required="true" requiredMessage="Escolha do Tipo da Sentença Obrigatória!">  
+
+                            <f:selectItem itemLabel="Selecione o Tipo da Sentença" itemValue="#{null}" />  
+
+
+                            <f:selectItems value="#{sentencaBean.listadetodostipos}"  
+                                           var="tipo" itemLabel="#{tipo.nome}"  
+                                           itemValue="#{tipo}"/>  
+
+                            <p:column>  
+                                #{r.nome} 
+                            </p:column>  
+
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+
+                 
+                    <h:panelGrid columns="2">
+                        
+                        <h:outputLabel styleClass="campodtsent" for="dtsent" value="Data da Sentenca:"/> 
+                        <p:calendar id="dtsent" size="16" title="Qual foi a data que foi dada a sentença da ação?" styleClass="txtdtsent" locale="pt_BR" value="#{sentencaBean.sentenca.datadasentenca}"/> 
+                        
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="1" styleClass="panelGridDescSent">
+
+                        <h:outputLabel styleClass="lbldescSent" for="descSent" value="Descrição da Sentença:"/> 
+                        <p:inputTextarea id="descSent" maxlength="100" autoResize="false"  rows="4" cols="39" value="#{sentencaBean.sentenca.descricao}"/>
+
+                    </h:panelGrid>
+
+                    <p:separator/>
+                    <center>
+                        <p:commandButton styleClass="btnSalvarAcao" value="Salvar" actionListener="#{sentencaBean.salvarSentenca()}" update="@form, :formDataTableSentenca" oncomplete="PF('dataTableSentencas').filter()" title="Salvar Sentença" icon="ui-icon-disk"/>
+                    </center>
+
+                </h:form>
+            </p:dialog> 
+            
+            <!--Formulário da tela Principal que lista todas as Sentencas-->
+            <h:form id="formDataTableSentenca">
+                <p:growl id="growl" sticky="true"/>
+                <p:commandButton update=":telaCadastroSentenca" oncomplete="PF('telaCadastroSentenca').show()" actionListener="#{sentencaBean.novoCadastroSentenca()}" value="Inserir Sentença" icon="ui-icon-plusthick"/>
+
+                <p:dataTable id="dataTableSentencas" var="sentenca" value="#{sentencaBean.listaTodasSentencas()}" 
+                             emptyMessage="Não Há Registro de Sentenças!" paginator="true" resizableColumns="true" rows="6" widgetVar="dataTableSentencas">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Sentenças Cadastradas" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column width="110"  filterBy="#{sentenca.acao.codacao}" headerText="Código Ação" filterMatchMode="startsWith">
+                        <h:outputText value="#{sentenca.acao.codacao}" />
+                    </p:column>
+
+                    <p:column headerText="Tipo da Sentença">
+                        <h:outputText value="#{sentenca.tiposentenca.nome}" />
+                    </p:column>
+                    
+                    <p:column headerText="Data da Sentença">
+                        <h:outputText value="#{sentenca.datadasentenca}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Alterar" width="80">
+                        <center>
+                            <p:commandButton styleClass="btnAlterarDadosUsuario" update=":telaCadastroSentenca" oncomplete="PF('telaCadastroSentenca').show()" actionListener="#{sentencaBean.alterarSentenca(sentenca)}" title="Alterar" icon="ui-icon-pencil"/>
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Excluir" width="80">
+                        <center>
+                            <p:commandButton update="@form" styleClass="btnExcluirUsuario" title="Excluir" oncomplete="PF('dataTableSentencas').filter()" actionListener="#{sentencaBean.excluirSentenca(sentenca)}" icon="ui-icon-trash"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Ver Detalhes" width="110">
+                        <center>
+                            <p:commandButton styleClass="btnExcluirUsuario" update=":telaDetalhesSentenca" oncomplete="PF('telaDetalhesSentenca').show()" actionListener="#{sentencaBean.verDetalhesSentenca(sentenca)}" title="Mais Detalhes" icon="ui-icon-search"/>
+                        </center>
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                </p:confirmDialog>
+                <center>
+                    <h:link outcome="moduloAdvogado">Voltar</h:link>
+                </center>
+
+            </h:form>
+            <!--Fim Formulário Principal-->
+
+        </ui:define> 
+
+    </ui:composition>
+</html>
+

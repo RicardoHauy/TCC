@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:form>
+
+        <p:tieredMenu style="width:200px">
+
+            <p:submenu label="Tipos" icon="ui-icon-info">
+                <p:menuitem value="Tipos das Ações" icon="ui-icon-document" outcome="tipoAcoes"/>
+                <p:menuitem value="Tipos de Pagamento" icon="ui-icon-suitcase" outcome="tipoPagamento"/>
+                <p:menuitem value="Tipos da Sentença" icon="ui-icon-pencil" outcome="tipoSentencas"/>
+            </p:submenu>
+
+            <p:menuitem value="Pessoas" icon="ui-icon-person" outcome="pessoas"/>  
+            <p:menuitem value="Ações" icon="ui-icon-document" outcome="acoes"/>
+            <p:menuitem value="Sentenças" icon="ui-icon-pencil" outcome="sentencas"/>
+            <p:menuitem value="Devedores" icon="ui-icon-note" outcome="divida"/>
+            
+             <p:submenu label="Relatórios" icon="ui-icon-script">
+                 <p:menuitem value="Clientes Inadimplentes" icon="ui-icon-person" ajax="false" target="_blank" action="#{relatorioTodasAcoesBean.imprimirRelatorio()}"/>
+                <p:menuitem value="Próximas Ocorrências" icon="ui-icon-calendar" ajax="false" target="_blank" action="#{relatorioTodasAcoesBean.imprimirRelatorioProxOcorrencias()}"/>
+                <p:menuitem value="Faturamento Mensal" icon="ui-icon-suitcase" onclick="PF('telaPedeMes').show()"/>
+                <p:menuitem value="Sentença Procedentes" icon="ui-icon-pencil" ajax="false" target="_blank" action="#{relatorioTodasAcoesBean.imprimirRelatorioSentencasProcedentes()}"/>
+
+            </p:submenu>
+            
+            <p:menuitem value="Sair" icon="ui-icon-extlink" action="#{loginBean.fazerLogoff()}"/>            
+
+           
+
+
+        </p:tieredMenu>
+
+
+    </h:form>
+
+<!--Tela que Pede o Mes ao usuário-->
+<p:dialog id="telaPedeMes" modal="true" styleClass="dlgpedemes" closeOnEscape="true" resizable="false" header="Digite o Mês e o Ano" widgetVar="telaPedeMes">
+                <h:form id="formdialogtelapedemes" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+                    <h:panelGrid columns="1">
+                       <h:outputLabel styleClass="lblpedemes" for="campopedemes" value="Mês: "/>
+                            
+                       <p:inputMask id="campopedemes" title="Digite o Mês que deseja o Relatório" required="true" requiredMessage="Campo Mês Obrigatório" mask="99" styleClass="campopedemes"  value="#{relatorioTodasAcoesBean.mes}"/>
+
+                       <h:outputLabel styleClass="lblpedeano" for="campopedeano" value="Ano: "/>
+                            
+                       <p:inputMask id="campopedeano" required="true" requiredMessage="Campo Ano Obrigatório" title="Digite o Ano que deseja o Relatório" mask="9999" styleClass="campopedeano"  value="#{relatorioTodasAcoesBean.ano}"/>
+
+                       
+                       <p:separator/>
+                       
+                      <p:commandButton id="btnpedemes" update="@form" ajax="false" onclick="this.form.target='_blank'" actionListener="#{relatorioTodasAcoesBean.imprimirRelatorioFaturamentoMensal()}" value="Enviar" icon="ui-icon-plusthick"/>
+
+                       
+                    </h:panelGrid>   
+                </h:form>   
+            </p:dialog>            
+            <!--FIm Tela que Pede o Mes ao usuário-->
+    
+</html>
+

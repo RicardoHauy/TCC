@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="templates/template.xhtml">
+
+        <ui:define name="valorConteudo">
+
+            <br/>
+
+            <p:dialog id="telaCadastroTipoSentenca"  modal="true" closeOnEscape="true" onHide="#{tipoSentencaBean.novoCadastroTipoSentenca()}" resizable="false" header="Tipo de Sentença" widgetVar="telaCadastroTipoSentenca">
+
+                <h:form id="formdialogcadastrotiposentenca" prependId="false" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+                   
+                    <center>
+                        <h:outputText styleClass="tituloacao" value="Inserindo Tipo" rendered="#{tipoSentencaBean.tipoSentenca.codigotiposentenca==null}"/>
+
+                        <h:outputText styleClass="tituloacao" value="Alterando Tipo" rendered="#{tipoSentencaBean.tipoSentenca.codigotiposentenca!=null}"/>
+                    </center>
+
+                    <br/>
+                    <br/>
+
+                    <h:panelGrid columns="2">
+
+                        <h:outputLabel styleClass="camponometipo" for="nometiposent" value="Nome do Tipo: "/> 
+                        <p:inputText id="nometiposent" required="true" requiredMessage="Campo Nome do Tipo Obrigatório!" styleClass="txtnometipo" value="#{tipoSentencaBean.tipoSentenca.nome}"/> 
+
+                    </h:panelGrid>
+<br/>
+                    <p:separator/>
+                    <center>
+                        <p:commandButton styleClass="btnSalvarAcao" value="Salvar" actionListener="#{tipoSentencaBean.salvarTipoSentenca()}" update="@form, :formDataTableTiposentenca" oncomplete="PF('dataTableTipoSentenca').filter()" title="Salvar Tipo" icon="ui-icon-disk"/>
+                    </center>
+
+                </h:form>
+            </p:dialog> 
+
+
+            <h:form id="formDataTableTiposentenca">
+                <p:growl id="growl" sticky="true"/>
+                <p:commandButton update=":formdialogcadastrotiposentenca" oncomplete="PF('telaCadastroTipoSentenca').show()" actionListener="#{tipoSentencaBean.novoCadastroTipoSentenca()}" value="Inserir Novo Tipo" icon="ui-icon-plusthick"/>
+                <p:dataTable id="dataTableTipoSentenca" widgetVar="dataTableTipoSentenca" var="tipo" value="#{tipoSentencaBean.listaTodosTipos()}" 
+                             emptyMessage="Não Há Registro de Tipos!" paginator="true" resizableColumns="true" rows="6">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Tipos de Sentença Cadastrados" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column width="110"  filterBy="#{tipo.codigotiposentenca}" headerText="Código Tipo" filterMatchMode="startsWith">
+
+                        <h:outputText value="#{tipo.codigotiposentenca}" />
+                    </p:column>
+
+                    <p:column filterBy="#{tipo.nome}" headerText="Tipo" filterMatchMode="startsWith">
+
+                        <h:outputText value="#{tipo.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Alterar" width="80">
+                        <center>
+                            <p:commandButton update=":formdialogcadastrotiposentenca" styleClass="btnAlterarDadosUsuario" title="Alterar" icon="ui-icon-pencil" actionListener="#{tipoSentencaBean.alterarTipo(tipo)}" oncomplete="PF('telaCadastroTipoSentenca').show()" />
+                        </center>
+                    </p:column>
+
+                    <p:column headerText="Excluir" width="80">
+                        <center>
+                            <p:commandButton update="@form" disabled="#{tipoSentencaBean.desabilitarExcluir(tipo)}" styleClass="btnExcluirUsuario" oncomplete="PF('dataTableTipoSentenca').filter()" title="Excluir" actionListener="#{tipoSentencaBean.excluirTipo(tipo)}" icon="ui-icon-trash"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                        </center>
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                </p:confirmDialog>
+                <center>
+                    <h:link outcome="moduloAdvogado">Voltar</h:link>
+                </center>
+
+            </h:form>
+
+        </ui:define> 
+
+    </ui:composition>
+
+</html>

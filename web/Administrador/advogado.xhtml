@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="templates/template.xhtml">
+
+        <ui:define name="valorConteudo">
+
+          
+            <p:dialog id="telainsercao" modal="true" closeOnEscape="true" onHide="#{usuarioBean.novoCadastro()}" resizable="false" header="Advogado" widgetVar="telaCadastro"> 
+                    
+                <h:form id="formdialog" style='margin:10px;'>
+                    <p:growl id="growl" sticky="true"/>
+                    
+                                        
+                    <center>
+                    <h:outputText styleClass="tituloacao" value="Inserindo Usuário" rendered="#{usuarioBean.usuario.codigo==null}"/>
+                    
+                    <h:outputText styleClass="tituloacao" value="Alterando Usuário" rendered="#{usuarioBean.usuario.codigo!=null}"/>
+                    </center>
+                    
+                    <br/>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="usuario" value="Usuário:"/> 
+                        <p:inputText id="usuario" maxlength="30" required="true" requiredMessage="*Nome de Usuário Obrigatório" value="#{usuarioBean.usuario.nome}"/>
+                      
+
+                        <h:outputLabel for="senha" value="Senha:"/> 
+                        <p:inputText type="password" maxlength="30" rendered="#{usuarioBean.usuario.codigo==null}" id="senha" required="true" requiredMessage="*Senha Obrigatória" value="#{usuarioBean.usuario.senha}"/>
+                        
+                        <p:inputText rendered="#{usuarioBean.usuario.codigo!=null}" maxlength="30" required="true" requiredMessage="*Senha Obrigatória" value="#{usuarioBean.usuario.senha}"/>
+                        
+                         
+                    </h:panelGrid>
+
+                  <br/>
+                  <p:separator/>
+                        <center>
+                        <p:commandButton styleClass="btnSalvarCadAdministrador" value="Salvar" update="@form,:formDataTable" icon="ui-icon-disk" actionListener="#{usuarioBean.salvarUsuario()}" />
+                    
+                        </center>
+                     
+                 
+                                     
+                </h:form>
+                 <br/> 
+          </p:dialog> 
+
+            <h:form id="formDataTable">
+                <p:growl id="growl" sticky="true"/>
+                <p:commandButton update=":formdialog" oncomplete="PF('telaCadastro').show()" actionListener="#{usuarioBean.novoCadastro()}" value="Inserir Advogado" icon="ui-icon-plusthick"/>
+                <p:dataTable var="usuario" sortBy="#{usuario.nome}" lazy="true" value="#{usuarioBean.usuarios}" 
+                             emptyMessage="Nenhum Usuário Encontrado!" paginator="true" resizableColumns="true" rows="6">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Usuários Cadastrados" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    
+                       
+                                        
+                    <p:column filterBy="#{usuario.nome}" headerText="Nome" filterMatchMode="startsWith">
+                        <h:outputText value="#{usuario.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Senha">
+                        <h:outputText value="#{usuario.senha}" />
+                    </p:column>
+
+                     <p:column headerText="Administrador">
+                        <h:outputText value="#{usuario.administrador.nome}" />
+                    </p:column>
+                    
+                    <p:column headerText="Alterar" width="80">
+                        <center>
+                        <p:commandButton update=":formdialog" styleClass="btnAlterarDadosUsuario" title="Alterar" icon="ui-icon-pencil" actionListener="#{usuarioBean.alterarUsuario(usuario)}" oncomplete="PF('telaCadastro').show()" />
+                        </center>
+                    </p:column>
+                    
+                    <p:column headerText="Excluir" width="80">
+                        <center>
+                        <p:commandButton update="@form" styleClass="btnExcluirUsuario" title="Excluir" icon="ui-icon-trash" actionListener="#{usuarioBean.excluirUsuario(usuario)}"><p:confirm header="Confirmação" message="Tem Certeza que Deseja Excluir?" icon="ui-icon-alert" /> </p:commandButton>
+                        </center>
+                    </p:column>
+                    
+                </p:dataTable>
+                
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                </p:confirmDialog>
+                <center>
+                <h:link outcome="moduloAdministrador">Voltar</h:link>
+                </center>
+            </h:form>
+        </ui:define> 
+
+    </ui:composition>
+</html>
+
